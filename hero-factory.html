@@ -328,7 +328,7 @@ select option { background: #1a1e2a; }
 
 .section-head-right {
   font-weight: 400;
-  color: var(--text4);
+  color: rgba(255,255,255,0.45);
   text-transform: none;
   letter-spacing: 0;
   font-family: 'Share Tech Mono', monospace;
@@ -1242,7 +1242,7 @@ function applyFilters() {
     const ac = waveAccents[wn] || '#7DD3FC';
 
     html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33">
-      <span>Wave ${wn} &mdash; ${ws[0].wn} &nbsp;<span style="color:var(--text4);font-weight:400">(${ws[0].year})</span></span>
+      <span>Wave ${wn} &mdash; ${ws[0].wn} &nbsp;<span style="color:rgba(255,255,255,0.45);font-weight:400">(${ws[0].year})</span></span>
       <span class="section-head-right">${meta}</span>
     </div><div class="grid">`;
 
