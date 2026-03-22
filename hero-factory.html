@@ -157,7 +157,7 @@ body::before {
 
 .stat-label {
   font-size: 9px;
-  color: var(--text3);
+  color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-family: 'Rajdhani', sans-serif;
@@ -178,7 +178,7 @@ body::before {
 
 .stat-sub {
   font-size: 10px;
-  color: var(--text3);
+  color: rgba(255,255,255,0.45);
   font-family: 'Share Tech Mono', monospace;
 }
 
@@ -540,7 +540,7 @@ select option { background: #1a1e2a; }
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text3);
+  color: rgba(255,255,255,0.45);
   background: none;
   border: none;
   border-top: 0.5px solid var(--border);
@@ -549,6 +549,11 @@ select option { background: #1a1e2a; }
   transition: color 0.15s;
   user-select: none;
   margin-top: 2px;
+}
+
+.instructions-toggle svg {
+  color: rgba(255,255,255,0.45);
+  transition: color 0.15s;
 }
 
 .instructions-toggle:hover {
@@ -560,7 +565,15 @@ select option { background: #1a1e2a; }
 }
 
 .instructions-toggle.open {
-  color: var(--instr-color, var(--accent));
+  color: var(--instr-color, var(--accent)) !important;
+}
+
+.instructions-toggle:not(.open) {
+  color: rgba(255,255,255,0.45) !important;
+}
+
+.instructions-toggle:not(.open) svg {
+  color: rgba(255,255,255,0.45) !important;
 }
 
 .instr-label {
@@ -820,6 +833,9 @@ select option { background: #1a1e2a; }
 
   <div class="header">
     <div class="logo">
+      <a href="/index.html" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border2);color:var(--text3);text-decoration:none;flex-shrink:0;transition:border-color 0.15s,color 0.15s;" title="Back to home" onmouseover="this.style.borderColor='var(--border3)';this.style.color='var(--text2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+      </a>
       <div class="logo-hex" style="width:44px;height:44px;border-radius:8px;background:transparent;border:none;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
         <img src="/lego-logo.png" alt="LEGO" style="width:44px;height:44px;object-fit:contain;border-radius:8px;" />
       </div>
@@ -928,7 +944,6 @@ select option { background: #1a1e2a; }
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">&#x2715;</span>
     <img class="lightbox-img" id="lightboxImg" src="" alt="" />
     <div class="lightbox-name" id="lightboxName"></div>
   </div>
@@ -1069,8 +1084,9 @@ function toggleInstructions(id) {
   const isOpen = panel.classList.contains('open');
   toggle.classList.toggle('open', !isOpen);
   panel.classList.toggle('open', !isOpen);
-  // Remove focus so button doesn't stay highlighted after click
   toggle.blur();
+  // Force colour reset when closing
+  if (isOpen) toggle.style.color = '';
 }
 
 function toggleImage(id) {
@@ -1133,7 +1149,7 @@ function updateStats() {
   bar.children[0].querySelector('.stat-sub').textContent = promoOwn + '/' + promoTotal + ' promotional';
   bar.children[1].querySelector('.stat-val').textContent = own;
   bar.children[1].querySelector('.prog-fill').style.width = pct + '%';
-  bar.children[2].querySelector('.stat-val').innerHTML = pct + '<span style="font-size:14px;color:var(--text3)">%</span>';
+  bar.children[2].querySelector('.stat-val').innerHTML = pct + '<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span>';
   bar.children[2].querySelector('.stat-sub').textContent = vrOwn + '/' + vrTot + ' very rare';
   bar.children[3].querySelector('.stat-val').textContent = wl;
 }
@@ -1206,7 +1222,7 @@ function applyFilters() {
 
   // Per-wave accent colours
   const waveAccents = {
-    1: '#7DD3FC', // sky blue
+    1: '#E879F9', // fuchsia
     2: '#F97316', // orange
     3: '#A78BFA', // violet
     4: '#34D399', // emerald
@@ -1320,7 +1336,7 @@ function renderStats() {
     <div class="stat">
       <div class="stat-label">Total sets</div>
       <div class="stat-val">${own}/${total}</div>
-      <div class="stat-sub" style="color:var(--text4);margin-top:3px">${promoOwn}/${promoTotal} promotional</div>
+      <div class="stat-sub" style="color:rgba(255,255,255,0.45);margin-top:3px">${promoOwn}/${promoTotal} promotional</div>
     </div>
     <div class="stat">
       <div class="stat-label">Owned</div>
@@ -1329,7 +1345,7 @@ function renderStats() {
     </div>
     <div class="stat">
       <div class="stat-label">Collection</div>
-      <div class="stat-val">${pct}<span style="font-size:14px;color:var(--text3)">%</span></div>
+      <div class="stat-val">${pct}<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span></div>
       <div class="stat-sub">${vrOwn}/${vrTot} very rare</div>
     </div>
     <div class="stat">
