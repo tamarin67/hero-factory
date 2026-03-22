@@ -417,6 +417,7 @@ select option { background: #1a1e2a; }
 .r-uncommon  { background: rgba(12,68,124,0.4);  color: #85B7EB; border: 0.5px solid rgba(133,183,235,0.25); }
 .r-rare      { background: rgba(60,52,137,0.4);  color: #AFA9EC; border: 0.5px solid rgba(175,169,236,0.25); }
 .r-very-rare { background: rgba(99,56,6,0.5);    color: #FAC775; border: 0.5px solid rgba(250,199,117,0.3); }
+.r-promo     { background: rgba(40,100,60,0.5);  color: #86EFAC; border: 0.5px solid rgba(134,239,172,0.3); }
 
 .card-name {
   font-family: 'Rajdhani', sans-serif;
@@ -449,6 +450,7 @@ select option { background: #1a1e2a; }
 .t-vehicle { background: var(--teal-dim);   color: var(--teal-text); }
 .t-mech    { background: var(--amber-dim);  color: var(--amber-text); }
 .t-combo   { background: var(--pink-dim);   color: var(--pink-text); }
+.t-accessory { background: rgba(100,100,100,0.15); color: #CBD5E1; }
 .t-pieces  { background: rgba(125,211,252,0.07); color: var(--accent); }
 
 .card-price {
@@ -784,6 +786,7 @@ select option { background: #1a1e2a; }
       <option value="Uncommon">Uncommon</option>
       <option value="Rare">Rare</option>
       <option value="Very Rare">Very Rare</option>
+      <option value="Promotional">Promotional</option>
     </select>
     <select id="typeFilter" onchange="applyFilters()">
       <option value="all">All types</option>
@@ -793,6 +796,7 @@ select option { background: #1a1e2a; }
       <option value="Vehicle">Vehicle</option>
       <option value="Mech">Mech</option>
       <option value="Combo">Combo</option>
+      <option value="Accessory">Accessory</option>
     </select>
     <select id="charFilter" onchange="applyFilters()">
       <option value="all">All characters</option>
@@ -937,6 +941,13 @@ const SETS = [
   {id:"44027",name:"Breez Flea Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:90,price:"£25–55",chars:["Breez"]},
   {id:"44028",name:"Surge & Rocka Combat Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Rare",pieces:164,price:"£50–110",chars:["Surge","Rocka"]},
   {id:"44029",name:"Queen Beast vs. Furno, Evo & Stormer",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Rare",pieces:188,price:"£60–130",chars:["Queen Beast","Furno","Evo","Stormer"]},
+  // Promotional polybags — slotted into their respective waves
+  {id:"4648933",name:"Accessory Pack",wave:3,wn:"Savage Planet",year:2012,type:"Accessory",rarity:"Promotional",pieces:6,price:"£10–14",chars:[]},
+  {id:"4659607",name:"Booster Pack",wave:4,wn:"Breakout",year:2012,type:"Accessory",rarity:"Promotional",pieces:6,price:"£5–7",chars:[]},
+  {id:"5000194",name:"Weapon Pack",wave:4,wn:"Breakout",year:2012,type:"Accessory",rarity:"Promotional",pieces:13,price:"£20–22",chars:[]},
+  {id:"40084",name:"Accessory Pack",wave:5,wn:"Brain Attack",year:2013,type:"Accessory",rarity:"Promotional",pieces:6,price:"£8–12",chars:[]},
+  {id:"40116",name:"Hero Polybag",wave:6,wn:"Invasion From Below",year:2014,type:"Hero",rarity:"Promotional",pieces:31,price:"£15–20",chars:[]},
+  {id:"40117",name:"Beast Polybag",wave:6,wn:"Invasion From Below",year:2014,type:"Creature",rarity:"Promotional",pieces:28,price:"£12–18",chars:[]},
 ];
 
 let owned = new Set();
@@ -1059,8 +1070,8 @@ function rebrickableUrl(id) {
   return 'https://rebrickable.com/sets/' + id + '-1/';
 }
 
-function rc(r) { return r==='Common'?'r-common':r==='Uncommon'?'r-uncommon':r==='Rare'?'r-rare':'r-very-rare'; }
-function tc(t) { return {Hero:'t-hero',Villain:'t-villain',Creature:'t-creature',Vehicle:'t-vehicle',Mech:'t-mech',Combo:'t-combo'}[t]||'t-hero'; }
+function rc(r) { return r==='Common'?'r-common':r==='Uncommon'?'r-uncommon':r==='Rare'?'r-rare':r==='Promotional'?'r-promo':'r-very-rare'; }
+function tc(t) { return {Hero:'t-hero',Villain:'t-villain',Creature:'t-creature',Vehicle:'t-vehicle',Mech:'t-mech',Combo:'t-combo',Accessory:'t-accessory'}[t]||'t-hero'; }
 
 // SVG icons
 const SVG_BOOK = `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.746c-.917-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/></svg>`;
