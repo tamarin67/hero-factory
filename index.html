@@ -559,6 +559,10 @@ select option { background: #1a1e2a; }
   color: var(--instr-color, var(--accent));
 }
 
+.instructions-toggle.open {
+  color: var(--instr-color, var(--accent));
+}
+
 .instr-label {
   display: flex;
   align-items: center;
@@ -1065,6 +1069,8 @@ function toggleInstructions(id) {
   const isOpen = panel.classList.contains('open');
   toggle.classList.toggle('open', !isOpen);
   panel.classList.toggle('open', !isOpen);
+  // Remove focus so button doesn't stay highlighted after click
+  toggle.blur();
 }
 
 function toggleImage(id) {
@@ -1111,14 +1117,20 @@ function updateCard(id) {
 }
 
 function updateStats() {
-  const total = SETS.length;
-  const own   = owned.size;
-  const wl    = wishlist.size;
-  const pct   = Math.round((own/total)*100);
-  const vrOwn = SETS.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
-  const vrTot = SETS.filter(s=>s.rarity==='Very Rare').length;
+  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
+  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
+  const total   = regularSets.length;
+  const promoTotal = promoSets.length;
+  const own     = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
+  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
+  const wl      = wishlist.size;
+  const pct     = Math.round((own/total)*100);
+  const vrOwn   = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
+  const vrTot   = regularSets.filter(s=>s.rarity==='Very Rare').length;
   const bar = document.getElementById('statBar');
   if (!bar) return;
+  bar.children[0].querySelector('.stat-val').textContent = own + '/' + total;
+  bar.children[0].querySelector('.stat-sub').textContent = promoOwn + '/' + promoTotal + ' promotional';
   bar.children[1].querySelector('.stat-val').textContent = own;
   bar.children[1].querySelector('.prog-fill').style.width = pct + '%';
   bar.children[2].querySelector('.stat-val').innerHTML = pct + '<span style="font-size:14px;color:var(--text3)">%</span>';
@@ -1289,17 +1301,22 @@ function applyFilters() {
 }
 
 function renderStats() {
-  const total = SETS.length;
-  const own   = owned.size;
-  const wl    = wishlist.size;
-  const pct   = Math.round((own/total)*100);
-  const vrOwn = SETS.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
-  const vrTot = SETS.filter(s=>s.rarity==='Very Rare').length;
+  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
+  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
+  const total   = regularSets.length;
+  const promoTotal = promoSets.length;
+  const own     = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
+  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
+  const wl      = wishlist.size;
+  const pct     = Math.round((own/total)*100);
+  const vrOwn   = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
+  const vrTot   = regularSets.filter(s=>s.rarity==='Very Rare').length;
 
   document.getElementById('statBar').innerHTML = `
     <div class="stat">
       <div class="stat-label">Total sets</div>
-      <div class="stat-val">${total}</div>
+      <div class="stat-val">${own}/${total}</div>
+      <div class="stat-sub" style="color:var(--text4);margin-top:3px">${promoOwn}/${promoTotal} promotional</div>
     </div>
     <div class="stat">
       <div class="stat-label">Owned</div>
