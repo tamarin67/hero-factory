@@ -1,1371 +1,313 @@
-<!DOCTYPEhtml>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Hero Factory">
-<meta name="theme-color" content="#0a0c12">
-<title>Hero Factory — Collection Tracker</title>
+<meta name="apple-mobile-web-app-title" content="Jamie's Stash">
+<meta name="theme-color" content="#08090f">
+<title>Jamie's Stash</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c12;
-  --bg2: #0f1219;
-  --bg3: #141720;
-  --bg4: #1a1e2a;
-  --border: rgba(255,255,255,0.07);
+  --bg: #08090f;
+  --bg2: #0d0f18;
+  --bg3: #12141f;
+  --border: rgba(255,255,255,0.06);
   --border2: rgba(255,255,255,0.12);
-  --border3: rgba(255,255,255,0.18);
-  --blue: #378ADD;
-  --blue-dim: rgba(55,138,221,0.15);
-  --blue-border: rgba(55,138,221,0.35);
-  --blue-text: #85B7EB;
-  --amber: #EF9F27;
-  --amber-dim: rgba(239,159,39,0.12);
-  --amber-border: rgba(239,159,39,0.35);
-  --amber-text: #FAC775;
-  --red-dim: rgba(226,75,74,0.12);
-  --red-text: #F09595;
-  --purple-dim: rgba(127,119,221,0.12);
-  --purple-text: #AFA9EC;
-  --teal-dim: rgba(29,158,117,0.12);
-  --teal-text: #5DCAA5;
-  --coral-dim: rgba(239,99,23,0.12);
-  --coral-text: #F0997B;
-  --pink-dim: rgba(212,83,126,0.12);
-  --pink-text: #ED93B1;
-  --text: rgba(255,255,255,0.88);
+  --text: rgba(255,255,255,0.9);
   --text2: rgba(255,255,255,0.5);
   --text3: rgba(255,255,255,0.28);
-  --text4: rgba(255,255,255,0.14);
-  --accent: #7DD3FC;
-  --radius: 10px;
-  --radius-sm: 6px;
+  --hf-color: #E879F9;
+  --mx-color: #F97316;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-body {
+html, body {
+  height: 100%;
   background: var(--bg);
   color: var(--text);
   font-family: 'Exo 2', sans-serif;
-  font-weight: 400;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
   overscroll-behavior: none;
 }
 
+/* Scanline texture */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
   pointer-events: none;
   z-index: 0;
 }
 
-.app {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 16px 80px;
+/* Subtle radial glow in centre */
+body::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(ellipse at center, rgba(232,121,249,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
   position: relative;
   z-index: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top) + 40px) 24px calc(env(safe-area-inset-bottom) + 40px);
+  gap: 56px;
 }
 
 /* ---- HEADER ---- */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: calc(env(safe-area-inset-top) + 20px) 0 16px;
-  border-bottom: 0.5px solid var(--border);
-  margin-bottom: 16px;
+  text-align: center;
+  animation: fadeUp 0.6s ease both;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.lego-badge {
+  display: inline-block;
+  margin-bottom: 20px;
 }
 
-.logo-hex {
-  width: 36px;
-  height: 36px;
-  background: var(--blue-dim);
-  border: 0.5px solid var(--blue-border);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lego-badge img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
-.logo-hex svg { width: 18px; height: 18px; fill: var(--blue); }
-
-.logo-title {
+.title {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 18px;
+  font-size: clamp(36px, 10vw, 64px);
   font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
-}
-.logo-sub {
-  font-size: 10px;
-  color: var(--text3);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-top: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.55) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.header-right {
+.subtitle {
+  margin-top: 10px;
   font-family: 'Share Tech Mono', monospace;
   font-size: 11px;
   color: var(--text3);
-  text-align: right;
-  line-height: 1.6;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-/* ---- STATS ---- */
-.stat-bar {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 8px;
-  margin-bottom: 16px;
+/* ---- CARDS ---- */
+.cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 640px;
+  animation: fadeUp 0.6s 0.15s ease both;
 }
 
-.stat {
+.card {
+  flex: 1 1 260px;
+  min-width: 0;
+  max-width: 300px;
+  text-decoration: none;
   background: var(--bg3);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 14px;
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
-.stat::before {
+.card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border3), transparent);
-}
-
-.stat-label {
-  font-size: 9px;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.stat-val {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--text);
-}
-
-.stat-val.blue { color: var(--blue); }
-.stat-val.amber { color: var(--amber); }
-
-.stat-sub {
-  font-size: 10px;
-  color: var(--text3);
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.prog-track {
-  margin-top: 6px;
-  height: 2px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.prog-fill {
-  height: 100%;
-  background: var(--blue);
-  border-radius: 1px;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 8px rgba(55,138,221,0.6);
-}
-
-/* ---- TABS ---- */
-.tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-
-.tab {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  border: 0.5px solid var(--border2);
-  background: var(--bg3);
-  color: var(--text3);
-  transition: all 0.15s;
-  user-select: none;
-}
-
-.tab:hover { color: var(--text2); border-color: var(--border3); }
-
-.tab.active {
-  background: var(--blue-dim);
-  color: var(--blue-text);
-  border-color: var(--blue-border);
-}
-
-.tab.wish-tab.active {
-  background: var(--amber-dim);
-  color: var(--amber-text);
-  border-color: var(--amber-border);
-}
-
-/* ---- FILTERS ---- */
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.search-wrap {
-  flex: 1 1 200px;
-  min-width: 0;
-  position: relative;
-}
-
-.search-wrap svg {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 13px;
-  height: 13px;
-  fill: var(--text3);
-  pointer-events: none;
-}
-
-input[type="text"] {
-  width: 100%;
-  height: 34px;
-  background: var(--bg3);
-  border: 0.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-family: 'Exo 2', sans-serif;
-  font-size: 13px;
-  padding: 0 10px 0 30px;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-input[type="text"]::placeholder { color: var(--text4); }
-input[type="text"]:focus { border-color: var(--blue-border); }
-
-select {
-  height: 34px;
-  background: var(--bg3);
-  border: 0.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  font-family: 'Exo 2', sans-serif;
-  font-size: 12px;
-  padding: 0 10px;
-  outline: none;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  -webkit-appearance: none;
-  appearance: none;
-  padding-right: 28px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-
-select:focus { border-color: var(--blue-border); }
-select option { background: #1a1e2a; }
-
-.results-count {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: var(--accent);
-  white-space: nowrap;
-  margin-left: auto;
-}
-
-/* ---- SECTION HEADER ---- */
-.section-head {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 20px 0 10px;
-  padding-bottom: 8px;
-  border-bottom: 0.5px solid rgba(125,211,252,0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.section-head-right {
-  font-weight: 400;
-  color: var(--text4);
-  text-transform: none;
-  letter-spacing: 0;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-}
-
-/* ---- GRID ---- */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 8px;
-}
-
-/* ---- CARD ---- */
-.card {
-  background: var(--bg3);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  transition: border-color 0.15s;
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(90deg, transparent, var(--card-color, #fff), transparent);
+  opacity: 0.4;
+  transition: opacity 0.2s;
 }
 
 .card::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  inset: 0;
+  background: radial-gradient(ellipse at top left, var(--card-color, #fff) 0%, transparent 60%);
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
-.card:hover::after { opacity: 1; }
-.card:hover { border-color: var(--border2); }
-
-.card.owned-card {
-  border-color: rgba(55,138,221,0.4);
-  background: rgba(55,138,221,0.05);
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color, #fff);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 0.5px var(--card-color, #fff);
 }
 
-.card.owned-card::after {
-  opacity: 1;
-  background: linear-gradient(90deg, transparent, rgba(55,138,221,0.4), transparent);
-}
+.card:hover::after { opacity: 0.05; }
+.card:hover::before { opacity: 0.8; }
 
-.card.wish-card {
-  border-color: rgba(239,159,39,0.35);
-  background: rgba(239,159,39,0.04);
-}
+.card-hf { --card-color: var(--hf-color); }
+.card-mx { --card-color: var(--mx-color); }
 
-.card.wish-card::after {
-  opacity: 1;
-  background: linear-gradient(90deg, transparent, rgba(239,159,39,0.35), transparent);
-}
-
-.card-top {
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
 
-.set-num {
+.card-hf .card-icon { background: rgba(232,121,249,0.1); border-color: rgba(232,121,249,0.2); }
+.card-mx .card-icon { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.2); }
+
+.card-label {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-  color: var(--accent);
-}
-
-.rarity-badge {
-  font-family: 'Rajdhani', sans-serif;
   font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
-.r-common    { background: rgba(68,68,65,0.5);  color: #B4B2A9; border: 0.5px solid rgba(180,178,169,0.2); }
-.r-uncommon  { background: rgba(12,68,124,0.4);  color: #85B7EB; border: 0.5px solid rgba(133,183,235,0.25); }
-.r-rare      { background: rgba(60,52,137,0.4);  color: #AFA9EC; border: 0.5px solid rgba(175,169,236,0.25); }
-.r-very-rare { background: rgba(99,56,6,0.5);    color: #FAC775; border: 0.5px solid rgba(250,199,117,0.3); }
-.r-promo     { background: rgba(40,100,60,0.5);  color: #86EFAC; border: 0.5px solid rgba(134,239,172,0.3); }
-
-.card-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-
-.card-meta {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.tag {
-  font-size: 9px;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.t-hero    { background: var(--blue-dim);   color: var(--blue-text); }
-.t-villain { background: var(--red-dim);    color: var(--red-text); }
-.t-creature{ background: var(--purple-dim); color: var(--purple-text); }
-.t-vehicle { background: var(--teal-dim);   color: var(--teal-text); }
-.t-mech    { background: var(--amber-dim);  color: var(--amber-text); }
-.t-combo   { background: var(--pink-dim);   color: var(--pink-text); }
-.t-accessory { background: rgba(100,100,100,0.15); color: #CBD5E1; }
-.t-pieces  { background: rgba(125,211,252,0.07); color: var(--accent); }
-
-.card-price {
-  font-size: 11px;
-  color: var(--accent);
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.card-price b { color: var(--text2); font-weight: 400; }
-
-.card-actions {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-own, .btn-wish {
-  flex: 1;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 5px 6px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  border: 0.5px solid var(--border2);
-  background: var(--bg4);
-  color: var(--accent);
-  transition: all 0.15s;
-  text-align: center;
-}
-
-.btn-own:hover { border-color: rgba(55,138,221,0.4); color: var(--blue-text); }
-.btn-wish:hover { border-color: rgba(239,159,39,0.4); color: var(--amber-text); }
-
-.btn-own.is-owned {
-  background: var(--blue-dim);
-  color: var(--blue-text);
-  border-color: var(--blue-border);
-}
-
-.btn-wish.is-wished {
-  background: var(--amber-dim);
-  color: var(--amber-text);
-  border-color: var(--amber-border);
-}
-
-.btn-wish:disabled {
-  opacity: 0.25;
-  cursor: default;
-}
-
-.buy-links {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-buy {
-  flex: 1;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 4px 6px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  border: 0.5px solid var(--border);
-  background: transparent;
-  color: var(--accent);
-  text-decoration: none;
-  text-align: center;
-  transition: all 0.15s;
-  display: block;
-}
-
-.btn-buy:hover { border-color: var(--border3); color: var(--text2); }
-
-/* ---- INSTRUCTIONS PANEL ---- */
-.instructions-toggle {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text3);
-  background: none;
-  border: none;
-  border-top: 0.5px solid var(--border);
-  padding: 6px 0 0;
-  cursor: pointer;
-  transition: color 0.15s;
-  user-select: none;
-  margin-top: 2px;
-}
-
-.instructions-toggle:hover {
-  color: var(--instr-color, var(--accent));
-}
-
-.instructions-toggle:hover .instr-icon {
-  color: var(--instr-color, var(--accent));
-}
-
-.instructions-toggle.open {
-  color: var(--instr-color, var(--accent));
-}
-
-.instr-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.instr-icon {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-  transition: color 0.15s;
-}
-
-.instr-chevron {
-  width: 10px;
-  height: 10px;
-  transition: transform 0.2s ease;
-  flex-shrink: 0;
-}
-
-.instructions-toggle.open .instr-chevron {
-  transform: rotate(180deg);
-}
-
-.instructions-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.22s ease;
-}
-
-.instructions-panel.open {
-  grid-template-rows: 1fr;
-}
-
-.instructions-inner {
-  overflow: hidden;
-}
-
-.instructions-content {
-  padding-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.btn-instr {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 6px 8px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  border: 0.5px solid rgba(125,211,252,0.15);
-  background: rgba(125,211,252,0.04);
-  color: var(--instr-color, var(--accent));
-  text-decoration: none;
-  transition: all 0.15s;
-}
-
-.btn-instr:hover {
-  border-color: rgba(125,211,252,0.35);
-  background: rgba(125,211,252,0.1);
-  color: #fff;
-}
-
-.btn-instr svg {
-  width: 11px;
-  height: 11px;
-  flex-shrink: 0;
-  fill: currentColor;
+  color: var(--card-color);
   opacity: 0.7;
 }
 
-.instr-note {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  color: var(--text4);
-  line-height: 1.5;
-  padding: 0 2px;
+.card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
 }
 
-/* ---- IMAGE PANEL ---- */
-.img-toggle {
-  width: 100%;
+.card-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.card-arrow {
+  margin-top: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
   font-family: 'Rajdhani', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text3);
-  background: none;
-  border: none;
-  border-top: 0.5px solid var(--border);
-  padding: 6px 0 0;
-  cursor: pointer;
-  transition: color 0.15s;
-  user-select: none;
-  margin-top: 2px;
+  color: var(--card-color);
+  opacity: 0.7;
+  transition: opacity 0.2s, gap 0.2s;
 }
 
-.img-toggle:hover { color: var(--accent); }
+.card:hover .card-arrow { opacity: 1; gap: 10px; }
 
-.img-chevron {
-  width: 10px;
-  height: 10px;
-  transition: transform 0.2s ease;
-  flex-shrink: 0;
+.card-arrow svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: transform 0.2s;
 }
 
-.img-toggle.open .img-chevron { transform: rotate(180deg); }
+.card:hover .card-arrow svg { transform: translateX(3px); }
 
-.img-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.25s ease;
-}
-
-.img-panel.open { grid-template-rows: 1fr; }
-
-.img-inner { overflow: hidden; }
-
-.img-content { padding-top: 8px; }
-
-.set-img {
-  width: 100%;
-  border-radius: var(--radius-sm);
-  display: block;
-  background: var(--bg4);
-  border: 0.5px solid var(--border);
-  min-height: 80px;
-  object-fit: contain;
-}
-
-.img-error {
+/* ---- FOOTER ---- */
+.footer {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  color: var(--text4);
-  text-align: center;
-  padding: 16px 0 8px;
-}
-
-/* ---- LIGHTBOX ---- */
-.lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  cursor: zoom-out;
-}
-
-.lightbox.active {
-  display: flex;
-}
-
-.lightbox-img {
-  max-width: 100%;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: var(--radius);
-  box-shadow: 0 0 60px rgba(0,0,0,0.8);
-  cursor: zoom-out;
-}
-
-.lightbox-close {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 36px;
-  height: 36px;
-  background: rgba(255,255,255,0.1);
-  border: 0.5px solid var(--border3);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--text2);
-  font-size: 18px;
-  line-height: 1;
-  transition: background 0.15s;
-}
-
-.lightbox-close:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.lightbox-name {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text2);
-  background: rgba(0,0,0,0.6);
-  padding: 6px 14px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.set-img {
-  cursor: zoom-in;
-}
-
-/* ---- EMPTY STATE ---- */
-.empty {
   text-align: center;
-  padding: 4rem 2rem;
-  color: var(--accent);
-  font-size: 14px;
-  font-family: 'Rajdhani', sans-serif;
-  letter-spacing: 0.05em;
-}
-
-/* ---- MOBILE ---- */
-@media (max-width: 480px) {
-  .stat-bar { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  .header-right { display: none; }
-  .results-count { display: none; }
-}
-
-@media (max-width: 360px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+  animation: fadeUp 0.6s 0.3s ease both;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.card {
-  animation: fadeUp 0.25s ease both;
+@media (max-width: 480px) {
+  .cards { flex-direction: column; align-items: center; }
+  .card { max-width: 100%; }
 }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="page">
 
   <div class="header">
-    <div class="logo">
-      <div class="logo-hex" style="width:44px;height:44px;border-radius:8px;background:transparent;border:none;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-        <img src="/lego-logo.png" alt="LEGO" style="width:44px;height:44px;object-fit:contain;border-radius:8px;" />
-      </div>
-      <div class="logo-words">
-        <div class="logo-title">Hero Factory</div>
-        <div class="logo-sub">Collection Tracker</div>
-      </div>
+    <div class="lego-badge">
+      <img src="/lego-logo.png" alt="LEGO" />
     </div>
-    <div class="header-right" id="headerRight"></div>
+    <div class="title">Jamie's Stash</div>
+    <div class="subtitle">Collection Tracker &nbsp;·&nbsp; Select a theme</div>
   </div>
 
-  <div class="stat-bar" id="statBar"></div>
+  <div class="cards">
 
-  <div class="tabs">
-    <div class="tab active" onclick="setView('all')">All sets</div>
-    <div class="tab" onclick="setView('owned')">Owned</div>
-    <div class="tab" onclick="setView('missing')">Missing</div>
-    <div class="tab wish-tab" onclick="setView('wishlist')">Wishlist</div>
+    <a class="card card-hf" href="/hero-factory.html">
+      <div class="card-icon">⚙️</div>
+      <div>
+        <div class="card-label">2010 – 2014</div>
+        <div class="card-title">Hero Factory</div>
+      </div>
+      <div class="card-desc">Track your Hero Factory collection across all 6 waves — 91 sets indexed.</div>
+      <div class="card-arrow">
+        Open tracker
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+
+    <a class="card card-mx" href="/mixels.html">
+      <div class="card-icon">🧩</div>
+      <div>
+        <div class="card-label">2014 – 2016</div>
+        <div class="card-title">Mixels</div>
+      </div>
+      <div class="card-desc">Track your Mixels collection across all series — coming soon.</div>
+      <div class="card-arrow">
+        Open tracker
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+
   </div>
 
-  <div class="filters">
-    <div class="search-wrap">
-      <svg viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
-      <input type="text" id="search" placeholder="Search sets or set numbers..." oninput="applyFilters()" />
-    </div>
-    <select id="waveFilter" onchange="applyFilters()">
-      <option value="all">All waves</option>
-      <option value="1">Wave 1 — Rise of the Rookies (2010)</option>
-      <option value="2">Wave 2 — Ordeal of Fire (2011)</option>
-      <option value="3">Wave 3 — Savage Planet (2011)</option>
-      <option value="4">Wave 4 — Breakout (2012)</option>
-      <option value="5">Wave 5 — Brain Attack (2013)</option>
-      <option value="6">Wave 6 — Invasion From Below (2014)</option>
-    </select>
-    <select id="rarityFilter" onchange="applyFilters()">
-      <option value="all">All rarities</option>
-      <option value="Common">Common</option>
-      <option value="Uncommon">Uncommon</option>
-      <option value="Rare">Rare</option>
-      <option value="Very Rare">Very Rare</option>
-      <option value="Promotional">Promotional</option>
-    </select>
-    <select id="typeFilter" onchange="applyFilters()">
-      <option value="all">All types</option>
-      <option value="Hero">Hero</option>
-      <option value="Villain">Villain</option>
-      <option value="Creature">Creature</option>
-      <option value="Vehicle">Vehicle</option>
-      <option value="Mech">Mech</option>
-      <option value="Combo">Combo</option>
-      <option value="Accessory">Accessory</option>
-    </select>
-    <select id="charFilter" onchange="applyFilters()">
-      <option value="all">All characters</option>
-      <option value="Stormer">Stormer</option>
-      <option value="Furno">Furno</option>
-      <option value="Breez">Breez</option>
-      <option value="Bulk">Bulk</option>
-      <option value="Surge">Surge</option>
-      <option value="Stringer">Stringer</option>
-      <option value="Nex">Nex</option>
-      <option value="Evo">Evo</option>
-      <option value="Rocka">Rocka</option>
-      <option value="Von Nebula">Von Nebula</option>
-      <option value="XPlode">XPlode</option>
-      <option value="Meltdown">Meltdown</option>
-      <option value="Thunder">Thunder</option>
-      <option value="Corroder">Corroder</option>
-      <option value="Rotor">Rotor</option>
-      <option value="Drilldozer">Drilldozer</option>
-      <option value="Jetbug">Jetbug</option>
-      <option value="Nitroblast">Nitroblast</option>
-      <option value="Fire Lord">Fire Lord</option>
-      <option value="Waspix">Waspix</option>
-      <option value="Raw-Jaw">Raw-Jaw</option>
-      <option value="Fangz">Fangz</option>
-      <option value="Scorpio">Scorpio</option>
-      <option value="Witch Doctor">Witch Doctor</option>
-      <option value="Toxic Reapa">Toxic Reapa</option>
-      <option value="Black Phantom">Black Phantom</option>
-      <option value="Jawblade">Jawblade</option>
-      <option value="Splitface">Splitface</option>
-      <option value="Core Hunter">Core Hunter</option>
-      <option value="Thornraxx">Thornraxx</option>
-      <option value="XT4">XT4</option>
-      <option value="Speeda Demon">Speeda Demon</option>
-      <option value="Voltix">Voltix</option>
-      <option value="Pyrox">Pyrox</option>
-      <option value="Scarox">Scarox</option>
-      <option value="Bruizer">Bruizer</option>
-      <option value="Ogrum">Ogrum</option>
-      <option value="Dragon Bolt">Dragon Bolt</option>
-      <option value="Frost Beast">Frost Beast</option>
-      <option value="Aquagon">Aquagon</option>
-      <option value="Jaw Beast">Jaw Beast</option>
-      <option value="Flyer Beast">Flyer Beast</option>
-      <option value="Splitter Beast">Splitter Beast</option>
-      <option value="Tunneler Beast">Tunneler Beast</option>
-      <option value="Crystal Beast">Crystal Beast</option>
-      <option value="Queen Beast">Queen Beast</option>
-    </select>
-    <span class="results-count" id="resultsCount"></span>
-  </div>
-
-  <div id="setContainer"></div>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">&#x2715;</span>
-    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
-    <div class="lightbox-name" id="lightboxName"></div>
-  </div>
+  <div class="footer">Jamie's Stash &nbsp;·&nbsp; LEGO Collection Tracker</div>
 
 </div>
-
-<script>
-const SETS = [
-  {id:"7164",name:"Preston Stormer",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:17,price:"£35–70",chars:["Stormer"]},
-  {id:"7165",name:"Natalie Breez",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:19,price:"£30–60",chars:["Breez"]},
-  {id:"7167",name:"William Furno",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:19,price:"£30–60",chars:["Furno"]},
-  {id:"7168",name:"Dunkan Bulk",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:17,price:"£25–55",chars:["Bulk"]},
-  {id:"7169",name:"Mark Surge",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:19,price:"£25–55",chars:["Surge"]},
-  {id:"7170",name:"Jimi Stringer",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:17,price:"£25–55",chars:["Stringer"]},
-  {id:"7179",name:"Dunkan Bulk & Vapour",wave:1,wn:"Rise of the Rookies",year:2010,type:"Hero",rarity:"Very Rare",pieces:89,price:"£80–160",chars:["Bulk"]},
-  {id:"7145",name:"Von Nebula",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:156,price:"£90–200",chars:["Von Nebula"]},
-  {id:"7147",name:"XPlode",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:45,price:"£30–65",chars:["XPlode"]},
-  {id:"7148",name:"Meltdown",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:50,price:"£30–65",chars:["Meltdown"]},
-  {id:"7156",name:"Corroder",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:40,price:"£25–55",chars:["Corroder"]},
-  {id:"7157",name:"Thunder",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:47,price:"£25–55",chars:["Thunder"]},
-  {id:"7162",name:"Rotor",wave:1,wn:"Rise of the Rookies",year:2010,type:"Villain",rarity:"Very Rare",pieces:145,price:"£60–140",chars:["Rotor"]},
-  {id:"7158",name:"Furno Bike",wave:1,wn:"Rise of the Rookies",year:2010,type:"Vehicle",rarity:"Very Rare",pieces:165,price:"£100–220",chars:["Furno"]},
-  {id:"7160",name:"Drop Ship",wave:1,wn:"Rise of the Rookies",year:2010,type:"Vehicle",rarity:"Very Rare",pieces:394,price:"£200–450",chars:["Stormer","Furno","Breez","Bulk","Surge","Stringer"]},
-  {id:"2063",name:"Stormer 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£25–55",chars:["Stormer"]},
-  {id:"2065",name:"Furno 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:30,price:"£25–55",chars:["Furno"]},
-  {id:"2067",name:"Evo 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£20–45",chars:["Evo"]},
-  {id:"2068",name:"Nex 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£20–45",chars:["Nex"]},
-  {id:"2141",name:"Surge 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:30,price:"£20–45",chars:["Surge"]},
-  {id:"2142",name:"Breez 2.0",wave:2,wn:"Ordeal of Fire",year:2011,type:"Hero",rarity:"Rare",pieces:29,price:"£20–45",chars:["Breez"]},
-  {id:"2192",name:"Drilldozer",wave:2,wn:"Ordeal of Fire",year:2011,type:"Villain",rarity:"Rare",pieces:61,price:"£25–60",chars:["Drilldozer"]},
-  {id:"2193",name:"Jetbug",wave:2,wn:"Ordeal of Fire",year:2011,type:"Villain",rarity:"Rare",pieces:63,price:"£25–60",chars:["Jetbug"]},
-  {id:"2194",name:"Nitroblast",wave:2,wn:"Ordeal of Fire",year:2011,type:"Villain",rarity:"Rare",pieces:57,price:"£20–50",chars:["Nitroblast"]},
-  {id:"2235",name:"Fire Lord",wave:2,wn:"Ordeal of Fire",year:2011,type:"Villain",rarity:"Very Rare",pieces:125,price:"£70–160",chars:["Fire Lord"]},
-  {id:"2143",name:"Rocka 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£20–45",chars:["Rocka"]},
-  {id:"2144",name:"Nex 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:30,price:"£20–45",chars:["Nex"]},
-  {id:"2145",name:"Stormer 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:32,price:"£20–45",chars:["Stormer"]},
-  {id:"2182",name:"Bulk 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£20–45",chars:["Bulk"]},
-  {id:"2183",name:"Stringer 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:31,price:"£20–45",chars:["Stringer"]},
-  {id:"2191",name:"Furno 3.0",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Rare",pieces:29,price:"£20–45",chars:["Furno"]},
-  {id:"2282",name:"Rocka XL",wave:3,wn:"Savage Planet",year:2011,type:"Hero",rarity:"Very Rare",pieces:174,price:"£60–140",chars:["Rocka"]},
-  {id:"2231",name:"Waspix",wave:3,wn:"Savage Planet",year:2011,type:"Creature",rarity:"Rare",pieces:48,price:"£20–50",chars:["Waspix"]},
-  {id:"2232",name:"Raw-Jaw",wave:3,wn:"Savage Planet",year:2011,type:"Creature",rarity:"Rare",pieces:52,price:"£20–50",chars:["Raw-Jaw"]},
-  {id:"2233",name:"Fangz",wave:3,wn:"Savage Planet",year:2011,type:"Creature",rarity:"Rare",pieces:55,price:"£20–50",chars:["Fangz"]},
-  {id:"2236",name:"Scorpio",wave:3,wn:"Savage Planet",year:2011,type:"Creature",rarity:"Rare",pieces:104,price:"£35–80",chars:["Scorpio"]},
-  {id:"2283",name:"Witch Doctor",wave:3,wn:"Savage Planet",year:2011,type:"Villain",rarity:"Very Rare",pieces:331,price:"£120–300",chars:["Witch Doctor"]},
-  {id:"6200",name:"Evo",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:36,price:"£15–35",chars:["Evo"]},
-  {id:"6202",name:"Rocka",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:55,price:"£15–35",chars:["Rocka"]},
-  {id:"6217",name:"Surge",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:39,price:"£15–35",chars:["Surge"]},
-  {id:"6221",name:"Nex",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:39,price:"£15–35",chars:["Nex"]},
-  {id:"6223",name:"Bulk",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:61,price:"£15–35",chars:["Bulk"]},
-  {id:"6227",name:"Breez",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:55,price:"£15–35",chars:["Breez"]},
-  {id:"6282",name:"Stringer",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:42,price:"£15–35",chars:["Stringer"]},
-  {id:"6293",name:"Furno",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Uncommon",pieces:56,price:"£15–35",chars:["Furno"]},
-  {id:"6230",name:"Stormer XL",wave:4,wn:"Breakout",year:2012,type:"Hero",rarity:"Rare",pieces:89,price:"£35–80",chars:["Stormer"]},
-  {id:"6201",name:"Toxic Reapa",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:42,price:"£15–30",chars:["Toxic Reapa"]},
-  {id:"6203",name:"Black Phantom",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Rare",pieces:124,price:"£50–120",chars:["Black Phantom"]},
-  {id:"6216",name:"Jawblade",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:45,price:"£15–30",chars:["Jawblade"]},
-  {id:"6218",name:"Splitface",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:50,price:"£15–30",chars:["Splitface"]},
-  {id:"6222",name:"Core Hunter",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:51,price:"£15–30",chars:["Core Hunter"]},
-  {id:"6228",name:"Thornraxx",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:44,price:"£15–30",chars:["Thornraxx"]},
-  {id:"6229",name:"XT4",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:39,price:"£15–30",chars:["XT4"]},
-  {id:"6231",name:"Speeda Demon",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Rare",pieces:192,price:"£40–90",chars:["Speeda Demon"]},
-  {id:"6283",name:"Voltix",wave:4,wn:"Breakout",year:2012,type:"Villain",rarity:"Uncommon",pieces:61,price:"£15–35",chars:["Voltix"]},
-  {id:"44000",name:"Furno XL",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Rare",pieces:103,price:"£40–90",chars:["Furno"]},
-  {id:"44002",name:"Rocka",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:43,price:"£10–25",chars:["Rocka"]},
-  {id:"44004",name:"Bulk",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:50,price:"£10–25",chars:["Bulk"]},
-  {id:"44006",name:"Breez",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:49,price:"£10–25",chars:["Breez"]},
-  {id:"44008",name:"Surge",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:66,price:"£10–25",chars:["Surge"]},
-  {id:"44010",name:"Stormer",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:69,price:"£10–25",chars:["Stormer"]},
-  {id:"44012",name:"Evo",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Common",pieces:51,price:"£10–25",chars:["Evo"]},
-  {id:"44014",name:"Jet Rocka",wave:5,wn:"Brain Attack",year:2013,type:"Hero",rarity:"Rare",pieces:290,price:"£60–130",chars:["Rocka"]},
-  {id:"44001",name:"Pyrox",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:50,price:"£10–25",chars:["Pyrox"]},
-  {id:"44003",name:"Scarox",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:46,price:"£10–25",chars:["Scarox"]},
-  {id:"44005",name:"Bruizer",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:62,price:"£10–25",chars:["Bruizer"]},
-  {id:"44007",name:"Ogrum",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:59,price:"£10–25",chars:["Ogrum"]},
-  {id:"44009",name:"Dragon Bolt",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Uncommon",pieces:149,price:"£25–60",chars:["Dragon Bolt"]},
-  {id:"44011",name:"Frost Beast",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:60,price:"£10–25",chars:["Frost Beast"]},
-  {id:"44013",name:"Aquagon",wave:5,wn:"Brain Attack",year:2013,type:"Villain",rarity:"Common",pieces:41,price:"£10–25",chars:["Aquagon"]},
-  {id:"44015",name:"EVO Walker",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Common",pieces:31,price:"£10–25",chars:["Evo"]},
-  {id:"44016",name:"Jaw Beast vs. Stormer",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Common",pieces:38,price:"£15–35",chars:["Jaw Beast","Stormer"]},
-  {id:"44017",name:"Stormer Freeze Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:71,price:"£20–45",chars:["Stormer"]},
-  {id:"44018",name:"Furno Jet Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:67,price:"£20–45",chars:["Furno"]},
-  {id:"44019",name:"Rocka Stealth Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:77,price:"£20–45",chars:["Rocka"]},
-  {id:"44020",name:"Flyer Beast vs. Breez",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Uncommon",pieces:78,price:"£20–45",chars:["Flyer Beast","Breez"]},
-  {id:"44021",name:"Splitter Beast vs. Furno & Evo",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Uncommon",pieces:88,price:"£25–55",chars:["Splitter Beast","Furno","Evo"]},
-  {id:"44022",name:"EVO XL Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Rare",pieces:176,price:"£50–110",chars:["Evo"]},
-  {id:"44023",name:"Rocka Crawler",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Common",pieces:37,price:"£15–35",chars:["Rocka"]},
-  {id:"44024",name:"Tunneler Beast vs. Surge",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Uncommon",pieces:48,price:"£20–45",chars:["Tunneler Beast","Surge"]},
-  {id:"44025",name:"Bulk Drill Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:101,price:"£25–55",chars:["Bulk"]},
-  {id:"44026",name:"Crystal Beast vs. Bulk",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Uncommon",pieces:70,price:"£20–45",chars:["Crystal Beast","Bulk"]},
-  {id:"44027",name:"Breez Flea Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Uncommon",pieces:90,price:"£25–55",chars:["Breez"]},
-  {id:"44028",name:"Surge & Rocka Combat Machine",wave:6,wn:"Invasion From Below",year:2014,type:"Mech",rarity:"Rare",pieces:164,price:"£50–110",chars:["Surge","Rocka"]},
-  {id:"44029",name:"Queen Beast vs. Furno, Evo & Stormer",wave:6,wn:"Invasion From Below",year:2014,type:"Combo",rarity:"Rare",pieces:188,price:"£60–130",chars:["Queen Beast","Furno","Evo","Stormer"]},
-  // Promotional polybags — slotted into their respective waves
-  {id:"4648933",name:"Accessory Pack",wave:3,wn:"Savage Planet",year:2012,type:"Accessory",rarity:"Promotional",pieces:6,price:"£10–14",chars:[]},
-  {id:"4659607",name:"Booster Pack",wave:4,wn:"Breakout",year:2012,type:"Accessory",rarity:"Promotional",pieces:6,price:"£5–7",chars:[]},
-  {id:"5000194",name:"Weapon Pack",wave:4,wn:"Breakout",year:2012,type:"Accessory",rarity:"Promotional",pieces:13,price:"£20–22",chars:[]},
-  {id:"40084",name:"Accessory Pack",wave:5,wn:"Brain Attack",year:2013,type:"Accessory",rarity:"Promotional",pieces:6,price:"£8–12",chars:[]},
-  {id:"40116",name:"Hero Polybag",wave:6,wn:"Invasion From Below",year:2014,type:"Hero",rarity:"Promotional",pieces:31,price:"£15–20",chars:[]},
-  {id:"40117",name:"Beast Polybag",wave:6,wn:"Invasion From Below",year:2014,type:"Creature",rarity:"Promotional",pieces:28,price:"£12–18",chars:[]},
-];
-
-let owned = new Set();
-let wishlist = new Set();
-let currentView = 'all';
-
-function load() {
-  try { const o = localStorage.getItem('hf-owned'); if (o) owned = new Set(JSON.parse(o)); } catch(e){}
-  try { const w = localStorage.getItem('hf-wish');  if (w) wishlist = new Set(JSON.parse(w)); } catch(e){}
-}
-
-function save() {
-  try { localStorage.setItem('hf-owned', JSON.stringify([...owned])); } catch(e){}
-  try { localStorage.setItem('hf-wish',  JSON.stringify([...wishlist])); } catch(e){}
-}
-
-function toggleOwned(id) {
-  if (owned.has(id)) { owned.delete(id); }
-  else { owned.add(id); wishlist.delete(id); }
-  save();
-  if (currentView === 'all') { updateCard(id); updateStats(); }
-  else applyFilters();
-}
-
-function toggleWish(id) {
-  if (owned.has(id)) return;
-  if (wishlist.has(id)) wishlist.delete(id);
-  else wishlist.add(id);
-  save();
-  if (currentView === 'all') { updateCard(id); updateStats(); }
-  else applyFilters();
-}
-
-function toggleInstructions(id) {
-  const toggle = document.getElementById('instr-toggle-' + id);
-  const panel  = document.getElementById('instr-panel-' + id);
-  if (!toggle || !panel) return;
-  const isOpen = panel.classList.contains('open');
-  toggle.classList.toggle('open', !isOpen);
-  panel.classList.toggle('open', !isOpen);
-  // Remove focus so button doesn't stay highlighted after click
-  toggle.blur();
-}
-
-function toggleImage(id) {
-  const toggle = document.getElementById('img-toggle-' + id);
-  const panel  = document.getElementById('img-panel-' + id);
-  if (!toggle || !panel) return;
-  const isOpen = panel.classList.contains('open');
-  toggle.classList.toggle('open', !isOpen);
-  panel.classList.toggle('open', !isOpen);
-  // Lazy-load: set src only when first opened
-  if (!isOpen) {
-    const img = panel.querySelector('.set-img');
-    if (img && !img.src) {
-      img.src = img.dataset.src;
-    }
-  }
-}
-
-function updateCard(id) {
-  const card = document.getElementById('card-' + id);
-  if (!card) return;
-  const io = owned.has(id);
-  const iw = wishlist.has(id);
-  card.className = 'card' + (io ? ' owned-card' : iw ? ' wish-card' : '');
-  const btnOwn  = card.querySelector('.btn-own');
-  const btnWish = card.querySelector('.btn-wish');
-  btnOwn.className  = 'btn-own'  + (io ? ' is-owned' : '');
-  btnOwn.innerHTML  = io ? '&#x2713; Owned' : 'Mark owned';
-  btnWish.className = 'btn-wish' + (iw ? ' is-wished' : '');
-  btnWish.innerHTML = iw ? '&#x2605; Wish' : '&#x2606; Wish';
-  btnWish.disabled  = io;
-  const s = SETS.find(s=>s.id===id);
-  if (!s) return;
-  const grid = card.closest('.grid');
-  const head = grid && grid.previousElementSibling;
-  if (head && head.classList.contains('section-head')) {
-    const allInWave   = SETS.filter(x=>x.wave===s.wave);
-    const ownedInWave = allInWave.filter(x=>owned.has(x.id)).length;
-    const wishInWave  = allInWave.filter(x=>wishlist.has(x.id)).length;
-    let meta = ownedInWave + '/' + allInWave.length + ' owned';
-    if (wishInWave) meta += '  ·  ' + wishInWave + ' wishlisted';
-    head.querySelector('.section-head-right').textContent = meta;
-  }
-}
-
-function updateStats() {
-  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
-  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
-  const total   = regularSets.length;
-  const promoTotal = promoSets.length;
-  const own     = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
-  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
-  const wl      = wishlist.size;
-  const pct     = Math.round((own/total)*100);
-  const vrOwn   = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
-  const vrTot   = regularSets.filter(s=>s.rarity==='Very Rare').length;
-  const bar = document.getElementById('statBar');
-  if (!bar) return;
-  bar.children[0].querySelector('.stat-val').textContent = own + '/' + total;
-  bar.children[0].querySelector('.stat-sub').textContent = promoOwn + '/' + promoTotal + ' promotional';
-  bar.children[1].querySelector('.stat-val').textContent = own;
-  bar.children[1].querySelector('.prog-fill').style.width = pct + '%';
-  bar.children[2].querySelector('.stat-val').innerHTML = pct + '<span style="font-size:14px;color:var(--text3)">%</span>';
-  bar.children[2].querySelector('.stat-sub').textContent = vrOwn + '/' + vrTot + ' very rare';
-  bar.children[3].querySelector('.stat-val').textContent = wl;
-}
-
-function setView(v) {
-  currentView = v;
-  document.querySelectorAll('.tab').forEach((el, i) => {
-    el.classList.toggle('active', ['all','owned','missing','wishlist'][i] === v);
-  });
-  applyFilters();
-}
-
-function blUrl(id)  { return 'https://www.bricklink.com/v2/catalog/catalogitem.page?S=' + id + '-1'; }
-function ebayUrl(name, id) {
-  return 'https://www.ebay.co.uk/sch/i.html?_nkw=' + encodeURIComponent('lego hero factory ' + id + ' ' + name.split(' ').slice(0,2).join(' '));
-}
-// LEGO's official building instructions — direct set page
-function legoInstrUrl(id) {
-  return 'https://www.lego.com/en-gb/service/building-instructions/' + id;
-}
-// Rebrickable hosts scanned instructions for older/discontinued sets
-function rebrickableUrl(id) {
-  return 'https://rebrickable.com/sets/' + id + '-1/';
-}
-
-function rc(r) { return r==='Common'?'r-common':r==='Uncommon'?'r-uncommon':r==='Rare'?'r-rare':r==='Promotional'?'r-promo':'r-very-rare'; }
-function tc(t) { return {Hero:'t-hero',Villain:'t-villain',Creature:'t-creature',Vehicle:'t-vehicle',Mech:'t-mech',Combo:'t-combo',Accessory:'t-accessory'}[t]||'t-hero'; }
-
-// SVG icons
-const SVG_BOOK = `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.746c-.917-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/></svg>`;
-const SVG_EXTERNAL = `<svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>`;
-
-function applyFilters() {
-  const q  = document.getElementById('search').value.toLowerCase();
-  const wv = document.getElementById('waveFilter').value;
-  const rf = document.getElementById('rarityFilter').value;
-  const tf = document.getElementById('typeFilter').value;
-  const cf = document.getElementById('charFilter').value;
-
-  const filtered = SETS.filter(s => {
-    if (q && !s.name.toLowerCase().includes(q) && !s.id.includes(q)) return false;
-    if (wv !== 'all' && s.wave != wv) return false;
-    if (rf !== 'all' && s.rarity !== rf) return false;
-    if (tf !== 'all' && s.type !== tf) return false;
-    if (cf !== 'all' && !s.chars.includes(cf)) return false;
-    if (currentView === 'owned'   && !owned.has(s.id)) return false;
-    if (currentView === 'missing' && (owned.has(s.id) || wishlist.has(s.id))) return false;
-    if (currentView === 'wishlist'&& !wishlist.has(s.id)) return false;
-    return true;
-  });
-
-  renderStats();
-
-  const rc2 = document.getElementById('resultsCount');
-  const filteredRegular = filtered.filter(s => s.rarity !== 'Promotional');
-  const filteredPromo   = filtered.filter(s => s.rarity === 'Promotional');
-  const totalRegular = SETS.filter(s => s.rarity !== 'Promotional').length;
-  const totalPromo   = SETS.filter(s => s.rarity === 'Promotional').length;
-  rc2.innerHTML = filteredRegular.length + ' / ' + totalRegular + ' sets &nbsp;<span style="color:var(--text4);font-size:10px">' + filteredPromo.length + ' / ' + totalPromo + ' promo</span>';
-
-  const container = document.getElementById('setContainer');
-  if (!filtered.length) {
-    const msgs = {owned:'No sets marked as owned yet.',wishlist:'Wishlist is empty.',missing:'Nothing missing.'};
-    container.innerHTML = '<div class="empty">' + (msgs[currentView]||'No sets match.') + '</div>';
-    return;
-  }
-
-  const waves = [...new Set(filtered.map(s=>s.wave))].sort((a,b)=>a-b);
-  let html = '';
-
-  // Per-wave accent colours
-  const waveAccents = {
-    1: '#7DD3FC', // sky blue
-    2: '#F97316', // orange
-    3: '#A78BFA', // violet
-    4: '#34D399', // emerald
-    5: '#FB7185', // rose
-    6: '#FBBF24', // amber
-  };
-
-  waves.forEach(wn => {
-    const ws = filtered.filter(s=>s.wave===wn);
-    const allInWave = SETS.filter(s=>s.wave===wn);
-    const wo = allInWave.filter(s=>owned.has(s.id)).length;
-    const ww = allInWave.filter(s=>wishlist.has(s.id)).length;
-    let meta = wo + '/' + allInWave.length + ' owned';
-    if (ww) meta += '  ·  ' + ww + ' wishlisted';
-
-    const ac = waveAccents[wn] || '#7DD3FC';
-
-    html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33">
-      <span>Wave ${wn} &mdash; ${ws[0].wn} &nbsp;<span style="color:var(--text4);font-weight:400">(${ws[0].year})</span></span>
-      <span class="section-head-right">${meta}</span>
-    </div><div class="grid">`;
-
-    ws.forEach((s, idx) => {
-      const io = owned.has(s.id);
-      const iw = wishlist.has(s.id);
-      const delay = Math.min(idx * 0.03, 0.4);
-
-      html += `<div class="card ${io?'owned-card':iw?'wish-card':''}" id="card-${s.id}" style="animation-delay:${delay}s;--wave-color:${ac}">
-        <div class="card-top">
-          <span class="set-num" style="color:${ac}">#${s.id}</span>
-          <span class="rarity-badge ${rc(s.rarity)}">${s.rarity}</span>
-        </div>
-        <div class="card-name">${s.name}</div>
-        <div class="card-meta">
-          <span class="tag ${tc(s.type)}">${s.type}</span>
-          <span class="tag t-pieces">${s.pieces} pcs</span>
-        </div>
-        <div class="card-price">Est. <b>${s.price}</b></div>
-        <div class="card-actions">
-          <button class="btn-own ${io?'is-owned':''}" onclick="toggleOwned('${s.id}')">${io?'&#x2713; Owned':'Mark owned'}</button>
-          <button class="btn-wish ${iw?'is-wished':''}" onclick="toggleWish('${s.id}')" ${io?'disabled':''}>
-            ${iw?'&#x2605; Wish':'&#x2606; Wish'}
-          </button>
-        </div>
-        <div class="buy-links">
-          <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${blUrl(s.id)}" target="_blank" rel="noopener">BrickLink</a>
-          <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${ebayUrl(s.name, s.id)}" target="_blank" rel="noopener">eBay UK</a>
-        </div>
-
-        <button class="img-toggle" id="img-toggle-${s.id}" onclick="toggleImage('${s.id}')" style="color:${ac}70;border-top-color:${ac}20">
-          <span style="display:flex;align-items:center;gap:5px">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/></svg>
-            View image
-          </span>
-          <svg class="img-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
-        </button>
-        <div class="img-panel" id="img-panel-${s.id}">
-          <div class="img-inner">
-            <div class="img-content">
-              <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" onclick="if(this.src)openLightbox(this.src,'${s.name}')" />
-              <div class="img-error" style="display:none">No image available</div>
-            </div>
-          </div>
-        </div>
-
-        <button class="instructions-toggle" style="--instr-color:${ac}" id="instr-toggle-${s.id}" onclick="toggleInstructions('${s.id}')">
-          <span class="instr-label">
-            <svg class="instr-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.746c-.917-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/></svg>
-            Instructions
-          </span>
-          <svg class="instr-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
-        </button>
-
-        <div class="instructions-panel" id="instr-panel-${s.id}">
-          <div class="instructions-inner">
-            <div class="instructions-content">
-              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${legoInstrUrl(s.id)}" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-                LEGO Official
-              </a>
-              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${rebrickableUrl(s.id)}" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-                Rebrickable
-              </a>
-              <p class="instr-note">Older sets may not appear on LEGO's site — Rebrickable hosts scanned instructions for discontinued sets.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>`;
-    });
-    html += '</div>';
-  });
-
-  container.innerHTML = html;
-}
-
-function renderStats() {
-  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
-  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
-  const total   = regularSets.length;
-  const promoTotal = promoSets.length;
-  const own     = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
-  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
-  const wl      = wishlist.size;
-  const pct     = Math.round((own/total)*100);
-  const vrOwn   = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
-  const vrTot   = regularSets.filter(s=>s.rarity==='Very Rare').length;
-
-  document.getElementById('statBar').innerHTML = `
-    <div class="stat">
-      <div class="stat-label">Total sets</div>
-      <div class="stat-val">${own}/${total}</div>
-      <div class="stat-sub" style="color:var(--text4);margin-top:3px">${promoOwn}/${promoTotal} promotional</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Owned</div>
-      <div class="stat-val blue">${own}</div>
-      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Collection</div>
-      <div class="stat-val">${pct}<span style="font-size:14px;color:var(--text3)">%</span></div>
-      <div class="stat-sub">${vrOwn}/${vrTot} very rare</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Wishlist</div>
-      <div class="stat-val amber">${wl}</div>
-    </div>`;
-
-  const now = new Date();
-  document.getElementById('headerRight').innerHTML =
-    'DATA: BRICKLINK 2026<br>SETS: ' + total + ' INDEXED<br>' +
-    now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
-}
-
-
-function openLightbox(src, name) {
-  const lb = document.getElementById('lightbox');
-  const img = document.getElementById('lightboxImg');
-  const nm  = document.getElementById('lightboxName');
-  img.src = src;
-  img.alt = name;
-  nm.textContent = name;
-  lb.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLightbox();
-});
-
-load();
-applyFilters();
-</script>
 </body>
 </html>
