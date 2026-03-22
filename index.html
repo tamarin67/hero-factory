@@ -820,8 +820,8 @@ select option { background: #1a1e2a; }
 
   <div class="header">
     <div class="logo">
-      <div class="logo-hex">
-        <svg viewBox="0 0 18 18"><polygon points="9,1 16,5 16,13 9,17 2,13 2,5"/></svg>
+      <div class="logo-hex" style="width:44px;height:44px;border-radius:8px;background:transparent;border:none;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <img src="/lego-logo.png" alt="LEGO" style="width:44px;height:44px;object-fit:contain;border-radius:8px;" />
       </div>
       <div class="logo-words">
         <div class="logo-title">Hero Factory</div>
@@ -1188,7 +1188,11 @@ function applyFilters() {
   renderStats();
 
   const rc2 = document.getElementById('resultsCount');
-  rc2.textContent = filtered.length + ' / ' + SETS.length + ' sets';
+  const filteredRegular = filtered.filter(s => s.rarity !== 'Promotional');
+  const filteredPromo   = filtered.filter(s => s.rarity === 'Promotional');
+  const totalRegular = SETS.filter(s => s.rarity !== 'Promotional').length;
+  const totalPromo   = SETS.filter(s => s.rarity === 'Promotional').length;
+  rc2.innerHTML = filteredRegular.length + ' / ' + totalRegular + ' sets &nbsp;<span style="color:var(--text4);font-size:10px">' + filteredPromo.length + ' / ' + totalPromo + ' promo</span>';
 
   const container = document.getElementById('setContainer');
   if (!filtered.length) {
