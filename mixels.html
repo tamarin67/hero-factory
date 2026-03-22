@@ -220,7 +220,7 @@ select option { background: #1a1e2a; }
 }
 
 .section-head-right {
-  font-weight: 400; color: var(--text4); text-transform: none;
+  font-weight: 400; color: rgba(255,255,255,0.45); text-transform: none;
   letter-spacing: 0; font-family: 'Share Tech Mono', monospace; font-size: 10px;
 }
 
@@ -763,7 +763,7 @@ function applyFilters() {
     const year = ws[0].year;
 
     html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33">
-      <span>Series ${sn} &mdash; ${seriesNames[sn]} &nbsp;<span style="color:var(--text4);font-weight:400">(${year})</span></span>
+      <span>Series ${sn} &mdash; ${seriesNames[sn]} &nbsp;<span style="color:rgba(255,255,255,0.45);font-weight:400">(${year})</span></span>
       <span class="section-head-right">${meta}</span>
     </div>`;
 
