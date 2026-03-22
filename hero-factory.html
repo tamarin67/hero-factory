@@ -1170,6 +1170,7 @@ function ebayUrl(name, id) {
 function legoInstrUrl(id) {
   return 'https://www.lego.com/en-gb/service/building-instructions/' + id;
 }
+const NO_LEGO_INSTR = new Set(['40117']);
 // Rebrickable hosts scanned instructions for older/discontinued sets
 function rebrickableUrl(id) {
   return 'https://rebrickable.com/sets/' + id + '-1/';
@@ -1299,10 +1300,10 @@ function applyFilters() {
         <div class="instructions-panel" id="instr-panel-${s.id}">
           <div class="instructions-inner">
             <div class="instructions-content">
-              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${legoInstrUrl(s.id)}" target="_blank" rel="noopener">
+              ${NO_LEGO_INSTR.has(s.id) ? '' : `<a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${legoInstrUrl(s.id)}" target="_blank" rel="noopener">
                 <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
                 LEGO Official
-              </a>
+              </a>`}
               <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${rebrickableUrl(s.id)}" target="_blank" rel="noopener">
                 <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
                 Rebrickable
