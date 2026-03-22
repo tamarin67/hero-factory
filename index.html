@@ -709,6 +709,76 @@ select option { background: #1a1e2a; }
   padding: 16px 0 8px;
 }
 
+/* ---- LIGHTBOX ---- */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  cursor: zoom-out;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+  cursor: zoom-out;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid var(--border3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s;
+}
+
+.lightbox-close:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.lightbox-name {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: rgba(0,0,0,0.6);
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.set-img {
+  cursor: zoom-in;
+}
+
 /* ---- EMPTY STATE ---- */
 .empty {
   text-align: center;
@@ -851,6 +921,13 @@ select option { background: #1a1e2a; }
   </div>
 
   <div id="setContainer"></div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">&#x2715;</span>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <div class="lightbox-name" id="lightboxName"></div>
+  </div>
 
 </div>
 
@@ -1173,7 +1250,7 @@ function applyFilters() {
         <div class="img-panel" id="img-panel-${s.id}">
           <div class="img-inner">
             <div class="img-content">
-              <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+              <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" onclick="if(this.src)openLightbox(this.src,'${s.name}')" />
               <div class="img-error" style="display:none">No image available</div>
             </div>
           </div>
@@ -1244,6 +1321,27 @@ function renderStats() {
     'DATA: BRICKLINK 2026<br>SETS: ' + total + ' INDEXED<br>' +
     now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
 }
+
+
+function openLightbox(src, name) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const nm  = document.getElementById('lightboxName');
+  img.src = src;
+  img.alt = name;
+  nm.textContent = name;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
 
 load();
 applyFilters();
