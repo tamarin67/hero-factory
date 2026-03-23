@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -13,402 +14,148 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0c12;
-  --bg2: #0f1219;
-  --bg3: #141720;
-  --bg4: #1a1e2a;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --border3: rgba(255,255,255,0.18);
-  --amber: #EF9F27;
-  --amber-dim: rgba(239,159,39,0.12);
-  --amber-border: rgba(239,159,39,0.35);
-  --amber-text: #FAC775;
-  --text: rgba(255,255,255,0.88);
-  --text2: rgba(255,255,255,0.5);
-  --text3: rgba(255,255,255,0.45);
-  --text4: rgba(255,255,255,0.14);
-  --accent: #FB923C;
-  --radius: 10px;
-  --radius-sm: 6px;
+  --bg: #0a0c12; --bg2: #0f1219; --bg3: #141720; --bg4: #1a1e2a;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --border3: rgba(255,255,255,0.18);
+  --amber: #EF9F27; --amber-dim: rgba(239,159,39,0.12); --amber-border: rgba(239,159,39,0.35); --amber-text: #FAC775;
+  --text: rgba(255,255,255,0.88); --text2: rgba(255,255,255,0.5); --text3: rgba(255,255,255,0.45); --text4: rgba(255,255,255,0.14);
+  --accent: #FB923C; --radius: 10px; --radius-sm: 6px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Exo 2', sans-serif;
-  font-weight: 400;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overscroll-behavior: none;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.app {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 16px 80px;
-  position: relative;
-  z-index: 1;
-}
-
-/* ---- HEADER ---- */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: calc(env(safe-area-inset-top) + 20px) 0 16px;
-  border-bottom: 0.5px solid var(--border);
-  margin-bottom: 16px;
-}
-
+body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; font-weight: 400; min-height: 100vh; min-height: -webkit-fill-available; overscroll-behavior: none; }
+body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; z-index: 0; }
+.app { max-width: 900px; margin: 0 auto; padding: 0 16px 80px; position: relative; z-index: 1; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top) + 20px) 0 16px; border-bottom: 0.5px solid var(--border); margin-bottom: 16px; }
 .logo { display: flex; align-items: center; gap: 12px; }
-
-.logo-hex {
-  width: 44px; height: 44px; border-radius: 8px;
-  background: transparent; border: none; padding: 0;
-  overflow: hidden; display: flex; align-items: center; justify-content: center;
-}
-
+.logo-hex { width: 44px; height: 44px; border-radius: 8px; background: transparent; border: none; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .logo-hex img { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; }
-
-.logo-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 18px; font-weight: 700;
-  color: var(--text); letter-spacing: 0.08em;
-  text-transform: uppercase; line-height: 1;
-}
-
-.logo-sub {
-  font-size: 10px; color: var(--text3);
-  letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px;
-}
-
-.header-right {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px; color: var(--text3); text-align: right; line-height: 1.6;
-}
-
-/* ---- STATS ---- */
-.stat-bar {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 8px; margin-bottom: 16px;
-}
-
-.stat {
-  background: var(--bg3); border: 0.5px solid var(--border);
-  border-radius: var(--radius); padding: 12px 14px;
-  position: relative; overflow: hidden;
-}
-
-.stat::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border3), transparent);
-}
-
-.stat-label {
-  font-size: 9px; color: rgba(255,255,255,0.45);
-  text-transform: uppercase; letter-spacing: 0.1em;
-  font-family: 'Rajdhani', sans-serif; font-weight: 600; margin-bottom: 5px;
-}
-
-.stat-val {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 26px; font-weight: 700; line-height: 1; color: var(--text);
-}
-
+.logo-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; }
+.logo-sub { font-size: 10px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; }
+.header-right { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text3); text-align: right; line-height: 1.6; }
+.stat-bar { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-bottom: 16px; }
+.stat { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; position: relative; overflow: hidden; }
+.stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border3), transparent); }
+.stat-label { font-size: 9px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Rajdhani', sans-serif; font-weight: 600; margin-bottom: 5px; }
+.stat-val { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; line-height: 1; color: var(--text); }
 .stat-val.orange { color: var(--accent); }
-.stat-val.amber  { color: var(--amber); }
-
-.stat-sub {
-  font-size: 10px; color: rgba(255,255,255,0.45);
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.prog-track {
-  margin-top: 6px; height: 2px;
-  background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden;
-}
-
-.prog-fill {
-  height: 100%; background: var(--accent); border-radius: 1px;
-  transition: width 0.5s ease; box-shadow: 0 0 8px rgba(251,146,60,0.6);
-}
-
-/* ---- TABS ---- */
+.stat-val.amber { color: var(--amber); }
+.stat-sub { font-size: 10px; color: rgba(255,255,255,0.45); font-family: 'Share Tech Mono', monospace; }
+.prog-track { margin-top: 6px; height: 2px; background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.5s ease; box-shadow: 0 0 8px rgba(251,146,60,0.6); }
 .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-
-.tab {
-  font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 6px 16px; border-radius: 20px; cursor: pointer;
-  border: 0.5px solid var(--border2); background: var(--bg3);
-  color: var(--text3); transition: all 0.15s; user-select: none;
-}
-
+.tab { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 16px; border-radius: 20px; cursor: pointer; border: 0.5px solid var(--border2); background: var(--bg3); color: var(--text3); transition: all 0.15s; user-select: none; }
 .tab:hover { color: var(--text2); border-color: var(--border3); }
-
-.tab.active {
-  background: rgba(251,146,60,0.15);
-  color: #FDBA74;
-  border-color: rgba(251,146,60,0.35);
-}
-
-.tab.wish-tab.active {
-  background: var(--amber-dim); color: var(--amber-text); border-color: var(--amber-border);
-}
-
-/* ---- FILTERS ---- */
-.filters {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 16px; align-items: center;
-}
-
+.tab.active { background: rgba(251,146,60,0.15); color: #FDBA74; border-color: rgba(251,146,60,0.35); }
+.tab.wish-tab.active { background: var(--amber-dim); color: var(--amber-text); border-color: var(--amber-border); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: center; }
 .search-wrap { flex: 1 1 200px; min-width: 0; position: relative; }
-
-.search-wrap svg {
-  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-  width: 13px; height: 13px; fill: var(--text3); pointer-events: none;
-}
-
-input[type="text"] {
-  width: 100%; height: 34px; background: var(--bg3);
-  border: 0.5px solid var(--border2); border-radius: var(--radius-sm);
-  color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 13px;
-  padding: 0 10px 0 30px; outline: none; transition: border-color 0.15s;
-}
-
+.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; fill: var(--text3); pointer-events: none; }
+input[type="text"] { width: 100%; height: 34px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 13px; padding: 0 10px 0 30px; outline: none; transition: border-color 0.15s; }
 input[type="text"]::placeholder { color: var(--text4); }
 input[type="text"]:focus { border-color: rgba(251,146,60,0.4); }
-
-select {
-  height: 34px; background: var(--bg3); border: 0.5px solid var(--border2);
-  border-radius: var(--radius-sm); color: var(--text2);
-  font-family: 'Exo 2', sans-serif; font-size: 12px; padding: 0 10px;
-  outline: none; cursor: pointer; transition: border-color 0.15s;
-  -webkit-appearance: none; appearance: none; padding-right: 28px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 10px center;
-}
-
+select { height: 34px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); color: var(--text2); font-family: 'Exo 2', sans-serif; font-size: 12px; padding: 0 10px; outline: none; cursor: pointer; transition: border-color 0.15s; -webkit-appearance: none; appearance: none; padding-right: 28px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
 select:focus { border-color: rgba(251,146,60,0.4); }
 select option { background: #1a1e2a; }
-
-.results-count {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: var(--accent); white-space: nowrap; margin-left: auto;
-}
-
-/* ---- SECTION HEADER ---- */
-.section-head {
-  font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--accent); margin: 20px 0 10px; padding-bottom: 8px;
-  border-bottom: 0.5px solid rgba(251,146,60,0.2);
-  display: flex; justify-content: space-between; align-items: center;
-}
-
-.section-head-right {
-  font-weight: 400; color: rgba(255,255,255,0.45); text-transform: none;
-  letter-spacing: 0; font-family: 'Share Tech Mono', monospace; font-size: 10px;
-}
-
-/* ---- TRIBE SUBHEADER ---- */
-.tribe-head {
-  font-family: 'Rajdhani', sans-serif; font-size: 10px; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text3); margin: 12px 0 6px; padding-left: 2px;
-}
-
-/* ---- GRID ---- */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 8px; margin-bottom: 4px;
-}
-
-/* ---- CARD ---- */
-.card {
-  background: var(--bg3); border: 0.5px solid var(--border);
-  border-radius: var(--radius); padding: 12px;
-  display: flex; flex-direction: column; gap: 7px;
-  transition: border-color 0.15s; position: relative; overflow: hidden;
-}
-
-.card::after {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border2), transparent);
-  opacity: 0; transition: opacity 0.15s;
-}
-
+.results-count { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent); white-space: nowrap; margin-left: auto; }
+.section-head { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 20px 0 10px; padding-bottom: 8px; border-bottom: 0.5px solid rgba(251,146,60,0.2); display: flex; justify-content: space-between; align-items: center; }
+.section-head-right { font-weight: 400; color: rgba(255,255,255,0.45); text-transform: none; letter-spacing: 0; font-family: 'Share Tech Mono', monospace; font-size: 10px; }
+.tribe-head { font-family: 'Rajdhani', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin: 12px 0 6px; padding-left: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 4px; }
+.card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.15s; position: relative; overflow: hidden; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); opacity: 0; transition: opacity 0.15s; }
 .card:hover::after { opacity: 1; }
 .card:hover { border-color: var(--border2); }
-
 .card.owned-card { border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.05); }
 .card.owned-card::after { opacity: 1; background: linear-gradient(90deg, transparent, rgba(251,146,60,0.4), transparent); }
 .card.wish-card { border-color: rgba(239,159,39,0.35); background: rgba(239,159,39,0.04); }
 .card.wish-card::after { opacity: 1; background: linear-gradient(90deg, transparent, rgba(239,159,39,0.35), transparent); }
-
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 4px; }
-
 .set-num { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--accent); }
-
-.tribe-badge {
-  font-family: 'Rajdhani', sans-serif; font-size: 9px; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 2px 6px; border-radius: 4px; white-space: nowrap; display: inline-block;
-}
-
-.card-name {
-  font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 600;
-  color: var(--text); line-height: 1.2; letter-spacing: 0.02em;
-}
-
+.tribe-badge { font-family: 'Rajdhani', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; white-space: nowrap; display: inline-block; }
+.card-name { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.2; letter-spacing: 0.02em; }
 .card-meta { display: flex; gap: 4px; flex-wrap: wrap; }
-
-.tag {
-  font-size: 9px; font-family: 'Rajdhani', sans-serif; font-weight: 600;
-  letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px;
-}
-
+.tag { font-size: 9px; font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
 .t-pieces { background: rgba(251,146,60,0.08); color: var(--accent); }
 .t-nixel  { background: rgba(255,255,255,0.06); color: var(--text3); }
-
-.rarity-badge {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
+.rarity-badge { font-family: 'Rajdhani', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
 .r-common    { background: rgba(68,68,65,0.5);   color: #B4B2A9; border: 0.5px solid rgba(180,178,169,0.2); }
 .r-uncommon  { background: rgba(12,68,124,0.4);  color: #85B7EB; border: 0.5px solid rgba(133,183,235,0.25); }
 .r-rare      { background: rgba(60,52,137,0.4);  color: #AFA9EC; border: 0.5px solid rgba(175,169,236,0.25); }
 .r-very-rare { background: rgba(99,56,6,0.5);    color: #FAC775; border: 0.5px solid rgba(250,199,117,0.3); }
-
-.card-price {
-  font-size: 11px; color: var(--accent); font-family: 'Share Tech Mono', monospace;
-}
+.card-price { font-size: 11px; color: var(--accent); font-family: 'Share Tech Mono', monospace; }
 .card-price b { color: var(--text2); font-weight: 400; }
-
 .card-actions { display: flex; gap: 5px; }
-
-.btn-own, .btn-wish {
-  flex: 1; font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600;
-  letter-spacing: 0.05em; text-transform: uppercase; padding: 5px 6px;
-  border-radius: var(--radius-sm); cursor: pointer;
-  border: 0.5px solid var(--border2); background: var(--bg4);
-  color: var(--accent); transition: all 0.15s; text-align: center;
-}
-
-.btn-own:hover  { border-color: rgba(251,146,60,0.4); color: #FDBA74; }
-.btn-wish:hover { border-color: rgba(239,159,39,0.4); color: var(--amber-text); }
-
-.btn-own.is-owned  { background: rgba(251,146,60,0.15); color: #FDBA74; border-color: rgba(251,146,60,0.35); }
-.btn-wish.is-wished{ background: var(--amber-dim); color: var(--amber-text); border-color: var(--amber-border); }
+.btn-own, .btn-wish { flex: 1; font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 5px 6px; border-radius: var(--radius-sm); cursor: pointer; border: 0.5px solid var(--border2); background: var(--bg4); color: var(--accent); transition: all 0.15s; text-align: center; }
+.btn-own:hover  { border-color: rgba(251,146,60,0.5); color: #FDBA74; background: rgba(251,146,60,0.12); }
+.btn-wish:hover { border-color: rgba(239,159,39,0.4); color: var(--amber-text); background: var(--amber-dim); }
+.btn-own.is-owned { background: rgba(251,146,60,0.15); color: #FDBA74; border-color: rgba(251,146,60,0.35); }
+.btn-own.is-owned:hover { background: rgba(251,146,60,0.28); border-color: rgba(251,146,60,0.6); color: #fff; }
+.btn-wish.is-wished { background: var(--amber-dim); color: var(--amber-text); border-color: var(--amber-border); }
 .btn-wish:disabled { opacity: 0.25; cursor: default; }
-
 .buy-links { display: flex; gap: 5px; }
+.btn-buy { flex: 1; font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 6px; border-radius: var(--radius-sm); cursor: pointer; border: 0.5px solid var(--border); background: transparent; color: var(--accent); text-decoration: none; text-align: center; transition: all 0.15s; display: block; }
+.btn-buy:hover { border-color: var(--wave-color, var(--accent)); color: var(--wave-color, var(--accent)); background: rgba(251,146,60,0.06); }
 
-.btn-buy {
-  flex: 1; font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600;
-  letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 6px;
-  border-radius: var(--radius-sm); cursor: pointer; border: 0.5px solid var(--border);
-  background: transparent; color: var(--accent); text-decoration: none;
-  text-align: center; transition: all 0.15s; display: block;
+/* –– INSTRUCTIONS PANEL –– */
+.instructions-toggle {
+width: 100%; display: flex; align-items: center; justify-content: space-between;
+font-family: ‘Rajdhani’, sans-serif; font-size: 10px; font-weight: 600;
+letter-spacing: 0.1em; text-transform: uppercase;
+color: rgba(255,255,255,0.45); background: none; border: none;
+border-top: 0.5px solid var(–border); padding: 6px 0 0;
+cursor: pointer; transition: color 0.15s; user-select: none; margin-top: 2px;
 }
-.btn-buy:hover { border-color: var(--border3); color: var(--text2); }
+.instructions-toggle svg { color: rgba(255,255,255,0.45); transition: color 0.15s; }
+.instructions-toggle:hover { color: var(–instr-color, var(–accent)); }
+.instructions-toggle:hover .instr-icon { color: var(–instr-color, var(–accent)); }
+.instructions-toggle.open { color: var(–instr-color, var(–accent)) !important; }
+.instructions-toggle:not(.open) { color: rgba(255,255,255,0.45) !important; }
+.instructions-toggle:not(.open) svg { color: rgba(255,255,255,0.45) !important; }
+.instr-label { display: flex; align-items: center; gap: 5px; }
+.instr-icon { width: 13px; height: 13px; flex-shrink: 0; transition: color 0.15s; }
+.instr-chevron { width: 10px; height: 10px; transition: transform 0.2s ease; flex-shrink: 0; }
+.instructions-toggle.open .instr-chevron { transform: rotate(180deg); }
+.instructions-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.22s ease; }
+.instructions-panel.open { grid-template-rows: 1fr; }
+.instructions-inner { overflow: hidden; }
+.instructions-content { padding-top: 8px; display: flex; flex-direction: column; gap: 5px; }
+.btn-instr { display: flex; align-items: center; gap: 6px; width: 100%; font-family: ‘Rajdhani’, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 8px; border-radius: var(–radius-sm); cursor: pointer; border: 0.5px solid rgba(251,146,60,0.15); background: rgba(251,146,60,0.04); color: var(–instr-color, var(–accent)); text-decoration: none; transition: all 0.15s; }
+.btn-instr:hover { border-color: rgba(251,146,60,0.35); background: rgba(251,146,60,0.1); color: #fff; }
+.btn-instr svg { width: 11px; height: 11px; flex-shrink: 0; fill: currentColor; opacity: 0.7; }
+.instr-note { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; color: var(–text4); line-height: 1.5; padding: 0 2px; }
 
-/* ---- IMAGE PANEL ---- */
-.img-toggle {
-  width: 100%; display: flex; align-items: center; justify-content: space-between;
-  font-family: 'Rajdhani', sans-serif; font-size: 10px; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); background: none; border: none;
-  border-top: 0.5px solid var(--border); padding: 6px 0 0;
-  cursor: pointer; transition: color 0.15s; user-select: none; margin-top: 2px;
-}
+/* –– IMAGE PANEL –– */
+.img-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; font-family: ‘Rajdhani’, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); background: none; border: none; border-top: 0.5px solid var(–border); padding: 6px 0 0; cursor: pointer; transition: color 0.15s; user-select: none; margin-top: 2px; }
 .img-toggle svg { color: rgba(255,255,255,0.45); transition: color 0.15s; }
-.img-toggle:hover { color: var(--accent); }
+.img-toggle:hover { color: var(–accent); }
 .img-chevron { width: 10px; height: 10px; transition: transform 0.2s ease; flex-shrink: 0; }
 .img-toggle.open .img-chevron { transform: rotate(180deg); }
 .img-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.25s ease; }
 .img-panel.open { grid-template-rows: 1fr; }
 .img-inner { overflow: hidden; }
 .img-content { padding-top: 8px; }
-.set-img {
-  width: 100%; border-radius: var(--radius-sm); display: block;
-  background: var(--bg4); border: 0.5px solid var(--border);
-  min-height: 80px; object-fit: contain; cursor: zoom-in;
-}
-.img-error {
-  font-family: 'Share Tech Mono', monospace; font-size: 9px;
-  color: var(--text4); text-align: center; padding: 16px 0 8px;
-}
+.set-img { width: 100%; border-radius: var(–radius-sm); display: block; background: var(–bg4); border: 0.5px solid var(–border); min-height: 80px; object-fit: contain; cursor: zoom-in; }
+.img-error { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; color: var(–text4); text-align: center; padding: 16px 0 8px; }
 
-/* ---- LIGHTBOX ---- */
-.lightbox {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-  z-index: 1000; align-items: center; justify-content: center;
-  padding: 20px; cursor: zoom-out;
-}
+/* –– LIGHTBOX –– */
+.lightbox { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.96); z-index: 9999; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; overflow: hidden; }
 .lightbox.active { display: flex; }
-.lightbox-img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: var(--radius); cursor: zoom-out; }
-.lightbox-name {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-  font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2);
-  background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 20px; white-space: nowrap;
-}
-
-/* ---- EMPTY ---- */
-.empty {
-  text-align: center; padding: 4rem 2rem;
-  color: var(--accent); font-size: 14px;
-  font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em;
-}
-
-/* ---- MOBILE ---- */
-@media (max-width: 480px) {
-  .stat-bar { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-  .header-right { display: none; }
-  .results-count { display: none; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+.lightbox-img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: var(–radius); cursor: zoom-out; }
+.lightbox-name { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: ‘Rajdhani’, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(–text2); background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+.empty { text-align: center; padding: 4rem 2rem; color: var(–accent); font-size: 14px; font-family: ‘Rajdhani’, sans-serif; letter-spacing: 0.05em; }
+@media (max-width: 480px) { .stat-bar { grid-template-columns: repeat(2, minmax(0,1fr)); } .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); } .header-right { display: none; } .results-count { display: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .card { animation: fadeUp 0.25s ease both; }
 </style>
+
 </head>
 <body>
 <div class="app">
-
   <div class="header">
     <div class="logo">
       <a href="/index.html" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border2);color:var(--text3);text-decoration:none;flex-shrink:0;transition:border-color 0.15s,color 0.15s;" title="Back to home" onmouseover="this.style.borderColor='var(--border3)';this.style.color='var(--text2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
       </a>
-      <div class="logo-hex">
-        <img src="/lego-logo.png" alt="LEGO" />
-      </div>
+      <div class="logo-hex"><img src="/lego-logo.png" alt="LEGO" /></div>
       <div class="logo-words">
         <div class="logo-title">Mixels</div>
         <div class="logo-sub">Collection Tracker</div>
@@ -416,16 +163,13 @@ select option { background: #1a1e2a; }
     </div>
     <div class="header-right" id="headerRight"></div>
   </div>
-
   <div class="stat-bar" id="statBar"></div>
-
   <div class="tabs">
     <div class="tab active" onclick="setView('all')">All sets</div>
     <div class="tab" onclick="setView('owned')">Owned</div>
     <div class="tab" onclick="setView('missing')">Missing</div>
     <div class="tab wish-tab" onclick="setView('wishlist')">Wishlist</div>
   </div>
-
   <div class="filters">
     <div class="search-wrap">
       <svg viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
@@ -479,19 +223,14 @@ select option { background: #1a1e2a; }
     </select>
     <span class="results-count" id="resultsCount"></span>
   </div>
-
   <div id="setContainer"></div>
-
-  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <img class="lightbox-img" id="lightboxImg" src="" alt="" />
     <div class="lightbox-name" id="lightboxName"></div>
   </div>
-
 </div>
 
 <script>
-// Tribe colour palette
 const TRIBE_COLORS = {
   'Infernites':  { bg: 'rgba(220,38,38,0.18)',  color: '#FCA5A5', border: 'rgba(220,38,38,0.35)' },
   'Cragsters':   { bg: 'rgba(120,80,30,0.2)',   color: '#D4A96A', border: 'rgba(180,120,50,0.35)' },
@@ -520,141 +259,129 @@ const TRIBE_COLORS = {
 };
 
 const SERIES_ACCENTS = {
-  1: '#F87171', // red
-  2: '#60A5FA', // blue
-  3: '#34D399', // emerald
-  4: '#F97316', // orange
-  5: '#A78BFA', // violet
-  6: '#FBBF24', // amber
-  7: '#FB7185', // rose
-  8: '#2DD4BF', // teal
-  9: '#E879F9', // fuchsia
+  1: '#F87171', 2: '#60A5FA', 3: '#34D399',
+  4: '#F97316', 5: '#A78BFA', 6: '#FBBF24',
+  7: '#FB7185', 8: '#2DD4BF', 9: '#E879F9',
 };
 
 const SETS = [
-  // ---- SERIES 1 — 2014 ----
-  {id:"41500",name:"Flain",    series:1,year:2014,tribe:"Infernites",pieces:58, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41501",name:"Vulk",    series:1,year:2014,tribe:"Infernites",pieces:48, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41502",name:"Zorch",   series:1,year:2014,tribe:"Infernites",pieces:45, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41503",name:"Krader",  series:1,year:2014,tribe:"Cragsters", pieces:66, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41504",name:"Seismo",  series:1,year:2014,tribe:"Cragsters", pieces:59, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41505",name:"Shuff",   series:1,year:2014,tribe:"Cragsters", pieces:52, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41506",name:"Teslo",   series:1,year:2014,tribe:"Electroids",pieces:64, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41507",name:"Zaptor",series:1,year:2014,tribe:"Electroids",pieces:51, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41508",name:"Volectro",  series:1,year:2014,tribe:"Electroids",pieces:53, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  // ---- SERIES 2 — 2014 ----
-  {id:"41509",name:"Slumbo",  series:2,year:2014,tribe:"Frosticons",pieces:55, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41510",name:"Lunk",   series:2,year:2014,tribe:"Frosticons",pieces:61, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41511",name:"Flurr",    series:2,year:2014,tribe:"Frosticons",pieces:51, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41512",name:"Chomly",  series:2,year:2014,tribe:"Fang Gang", pieces:55, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41513",name:"Gobba",   series:2,year:2014,tribe:"Fang Gang", pieces:58, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41514",name:"Jawg",    series:2,year:2014,tribe:"Fang Gang", pieces:58, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41515",name:"Kraw",    series:2,year:2014,tribe:"Flexers",   pieces:57, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41516",name:"Tentro",    series:2,year:2014,tribe:"Flexers",   pieces:57, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41517",name:"Balk",  series:2,year:2014,tribe:"Flexers",   pieces:57, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  // ---- SERIES 3 — 2014 ----
-  {id:"41518",name:"Glomp",   series:3,year:2014,tribe:"Glorp Corp",pieces:60, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41519",name:"Glurt",   series:3,year:2014,tribe:"Glorp Corp",pieces:55, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41520",name:"Torts",   series:3,year:2014,tribe:"Glorp Corp",pieces:51, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41521",name:"Scorpi",  series:3,year:2014,tribe:"Spikels",   pieces:48, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41522",name:"Footi",   series:3,year:2014,tribe:"Spikels",   pieces:46, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41523",name:"Hoogi",   series:3,year:2014,tribe:"Spikels",   pieces:48, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41524",name:"Mesmo",   series:3,year:2014,tribe:"Wiztastics",pieces:48, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  {id:"41525",name:"Magnifo", series:3,year:2014,tribe:"Wiztastics",pieces:66, nixel:true, price:"£4–8",rarity:"Very Rare"},
-  {id:"41526",name:"Wizwuz",  series:3,year:2014,tribe:"Wiztastics",pieces:52, nixel:false,price:"£4–8",rarity:"Very Rare"},
-  // ---- SERIES 4 — 2015 ----
-  {id:"41527",name:"Rokit", series:4,year:2015,tribe:"Orbitons",  pieces:66, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41528",name:"Niksput",series:4,year:2015,tribe:"Orbitons", pieces:74, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41529",name:"Nurp-Naut",   series:4,year:2015,tribe:"Orbitons",  pieces:62, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41530",name:"Meltus", series:4,year:2015,tribe:"Glowkies",  pieces:58, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41531",name:"Flamzer",  series:4,year:2015,tribe:"Glowkies",  pieces:58, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41532",name:"Burnard",  series:4,year:2015,tribe:"Glowkies",  pieces:54, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41533",name:"Globert",   series:4,year:2015,tribe:"Klinkers",  pieces:49, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41534",name:"Vampos",     series:4,year:2015,tribe:"Klinkers",  pieces:67, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41535",name:"Boogly",   series:4,year:2015,tribe:"Klinkers",  pieces:49, nixel:false,price:"£4–8",rarity:"Rare"},
-  // ---- SERIES 5 — 2015 ----
-  {id:"41536",name:"Gox", series:5,year:2015,tribe:"Infernites",pieces:58, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41537",name:"Jinky", series:5,year:2015,tribe:"Infernites",pieces:55, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41538",name:"Kamzo",  series:5,year:2015,tribe:"Infernites",pieces:51, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41539",name:"Krog",   series:5,year:2015,tribe:"Frosticons",pieces:52, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41540",name:"Chilbo",  series:5,year:2015,tribe:"Frosticons",pieces:55, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41541",name:"Snoof",    series:5,year:2015,tribe:"Frosticons",pieces:52, nixel:true, price:"£4–8",rarity:"Rare"},
-  {id:"41542",name:"Spugg",series:5,year:2015,tribe:"Lixers",    pieces:58, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41543",name:"Turg",   series:5,year:2015,tribe:"Lixers",    pieces:53, nixel:false,price:"£4–8",rarity:"Rare"},
-  {id:"41544",name:"Tungster",    series:5,year:2015,tribe:"Lixers",    pieces:53, nixel:true, price:"£4–8",rarity:"Rare"},
-  // ---- SERIES 6 — 2015 ----
-  {id:"41545",name:"Kramm",   series:6,year:2015,tribe:"Weldos",    pieces:61, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41546",name:"Forx",    series:6,year:2015,tribe:"Weldos",    pieces:61, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41547",name:"Wuzzo",   series:6,year:2015,tribe:"Weldos",    pieces:65, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41548",name:"Dribbal", series:6,year:2015,tribe:"Glorp Corp",pieces:51, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41549",name:"Gurggle", series:6,year:2015,tribe:"Glorp Corp",pieces:60, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41550",name:"Slusho",  series:6,year:2015,tribe:"Glorp Corp",pieces:56, nixel:true, price:"£4–8",rarity:"Uncommon"},
-  {id:"41551",name:"Snax",    series:6,year:2015,tribe:"Munchos",   pieces:56, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41552",name:"Berp",    series:6,year:2015,tribe:"Munchos",   pieces:57, nixel:true, price:"£4–8",rarity:"Uncommon"},
-  {id:"41553",name:"Vaka-Waka",series:6,year:2015,tribe:"Munchos",  pieces:57, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  // ---- SERIES 7 — 2016 ----
-  {id:"41554",name:"Kuffs",   series:7,year:2016,tribe:"MCPD",      pieces:58, nixel:true, price:"£4–8",rarity:"Uncommon"},
-  {id:"41555",name:"Busto",   series:7,year:2016,tribe:"MCPD",      pieces:60, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41556",name:"Tiketz",  series:7,year:2016,tribe:"MCPD",      pieces:58, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41557",name:"Camillot",series:7,year:2016,tribe:"Medivals",  pieces:67, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41558",name:"Mixadel", series:7,year:2016,tribe:"Medivals",  pieces:62, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41559",name:"Paladum", series:7,year:2016,tribe:"Medivals",  pieces:66, nixel:true, price:"£4–8",rarity:"Uncommon"},
-  {id:"41560",name:"Jamzy",   series:7,year:2016,tribe:"Mixies",    pieces:57, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  {id:"41561",name:"Tapsy",   series:7,year:2016,tribe:"Mixies",    pieces:57, nixel:true, price:"£4–8",rarity:"Uncommon"},
-  {id:"41562",name:"Trumpsy", series:7,year:2016,tribe:"Mixies",    pieces:60, nixel:false,price:"£4–8",rarity:"Uncommon"},
-  // ---- SERIES 8 — 2016 ----
-  {id:"41563",name:"Splasho", series:8,year:2016,tribe:"MCFD",      pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41564",name:"Aquad",   series:8,year:2016,tribe:"MCFD",      pieces:66, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41565",name:"Hydro",   series:8,year:2016,tribe:"MCFD",      pieces:62, nixel:true, price:"£4–8",rarity:"Common"},
-  {id:"41566",name:"Sharx",   series:8,year:2016,tribe:"Pyrratz",   pieces:68, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41567",name:"Skulzy",  series:8,year:2016,tribe:"Pyrratz",   pieces:60, nixel:true, price:"£4–8",rarity:"Common"},
-  {id:"41568",name:"Lewt",    series:8,year:2016,tribe:"Pyrratz",   pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41569",name:"Surgeo",  series:8,year:2016,tribe:"Medix",     pieces:66, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41570",name:"Skrubz",  series:8,year:2016,tribe:"Medix",     pieces:57, nixel:true, price:"£4–8",rarity:"Common"},
-  {id:"41571",name:"Tuth",    series:8,year:2016,tribe:"Medix",     pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  // ---- SERIES 9 — 2016 ----
-  {id:"41572",name:"Gobbol",  series:9,year:2016,tribe:"Trashoz",   pieces:57, nixel:true, price:"£4–8",rarity:"Common"},
-  {id:"41573",name:"Sweepz",  series:9,year:2016,tribe:"Trashoz",   pieces:65, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41574",name:"Compax",  series:9,year:2016,tribe:"Trashoz",   pieces:62, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41575",name:"Cobrax",  series:9,year:2016,tribe:"Nindjas",   pieces:55, nixel:true, price:"£4–8",rarity:"Common"},
-  {id:"41576",name:"Spinza",  series:9,year:2016,tribe:"Nindjas",   pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41577",name:"Mysto",   series:9,year:2016,tribe:"Nindjas",   pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41578",name:"Screeno", series:9,year:2016,tribe:"Newzers",   pieces:60, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41579",name:"Camsta",  series:9,year:2016,tribe:"Newzers",   pieces:57, nixel:false,price:"£4–8",rarity:"Common"},
-  {id:"41580",name:"Myke",    series:9,year:2016,tribe:"Newzers",   pieces:57, nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41500",name:"Flain",    series:1,year:2014,tribe:"Infernites",pieces:58,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41501",name:"Vulk",    series:1,year:2014,tribe:"Infernites",pieces:48,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41502",name:"Zorch",   series:1,year:2014,tribe:"Infernites",pieces:45,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41503",name:"Krader",  series:1,year:2014,tribe:"Cragsters", pieces:66,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41504",name:"Seismo",  series:1,year:2014,tribe:"Cragsters", pieces:59,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41505",name:"Shuff",   series:1,year:2014,tribe:"Cragsters", pieces:52,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41506",name:"Teslo",   series:1,year:2014,tribe:"Electroids",pieces:64,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41507",name:"Zaptor",  series:1,year:2014,tribe:"Electroids",pieces:51,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41508",name:"Volectro",series:1,year:2014,tribe:"Electroids",pieces:53,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41509",name:"Slumbo",  series:2,year:2014,tribe:"Frosticons",pieces:55,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41510",name:"Lunk",    series:2,year:2014,tribe:"Frosticons",pieces:61,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41511",name:"Flurr",   series:2,year:2014,tribe:"Frosticons",pieces:51,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41512",name:"Chomly",  series:2,year:2014,tribe:"Fang Gang", pieces:55,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41513",name:"Gobba",   series:2,year:2014,tribe:"Fang Gang", pieces:58,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41514",name:"Jawg",    series:2,year:2014,tribe:"Fang Gang", pieces:58,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41515",name:"Kraw",    series:2,year:2014,tribe:"Flexers",   pieces:57,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41516",name:"Tentro",  series:2,year:2014,tribe:"Flexers",   pieces:57,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41517",name:"Balk",    series:2,year:2014,tribe:"Flexers",   pieces:57,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41518",name:"Glomp",   series:3,year:2014,tribe:"Glorp Corp",pieces:60,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41519",name:"Glurt",   series:3,year:2014,tribe:"Glorp Corp",pieces:55,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41520",name:"Torts",   series:3,year:2014,tribe:"Glorp Corp",pieces:51,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41521",name:"Scorpi",  series:3,year:2014,tribe:"Spikels",   pieces:48,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41522",name:"Footi",   series:3,year:2014,tribe:"Spikels",   pieces:46,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41523",name:"Hoogi",   series:3,year:2014,tribe:"Spikels",   pieces:48,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41524",name:"Mesmo",   series:3,year:2014,tribe:"Wiztastics",pieces:48,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41525",name:"Magnifo", series:3,year:2014,tribe:"Wiztastics",pieces:66,nixel:true, price:"£4–8",rarity:"Very Rare"},
+  {id:"41526",name:"Wizwuz",  series:3,year:2014,tribe:"Wiztastics",pieces:52,nixel:false,price:"£4–8",rarity:"Very Rare"},
+  {id:"41527",name:"Rokit",     series:4,year:2015,tribe:"Orbitons",  pieces:66,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41528",name:"Niksput",   series:4,year:2015,tribe:"Orbitons",  pieces:74,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41529",name:"Nurp-Naut", series:4,year:2015,tribe:"Orbitons",  pieces:62,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41530",name:"Meltus",    series:4,year:2015,tribe:"Glowkies",  pieces:58,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41531",name:"Flamzer",   series:4,year:2015,tribe:"Glowkies",  pieces:58,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41532",name:"Burnard",   series:4,year:2015,tribe:"Glowkies",  pieces:54,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41533",name:"Globert",   series:4,year:2015,tribe:"Klinkers",  pieces:49,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41534",name:"Vampos",    series:4,year:2015,tribe:"Klinkers",  pieces:67,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41535",name:"Boogly",    series:4,year:2015,tribe:"Klinkers",  pieces:49,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41536",name:"Gox",       series:5,year:2015,tribe:"Infernites",pieces:58,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41537",name:"Jinky",     series:5,year:2015,tribe:"Infernites",pieces:55,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41538",name:"Kamzo",     series:5,year:2015,tribe:"Infernites",pieces:51,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41539",name:"Krog",      series:5,year:2015,tribe:"Frosticons",pieces:52,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41540",name:"Chilbo",    series:5,year:2015,tribe:"Frosticons",pieces:55,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41541",name:"Snoof",     series:5,year:2015,tribe:"Frosticons",pieces:52,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41542",name:"Spugg",     series:5,year:2015,tribe:"Lixers",    pieces:58,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41543",name:"Turg",      series:5,year:2015,tribe:"Lixers",    pieces:53,nixel:false,price:"£4–8",rarity:"Rare"},
+  {id:"41544",name:"Tungster",  series:5,year:2015,tribe:"Lixers",    pieces:53,nixel:true, price:"£4–8",rarity:"Rare"},
+  {id:"41545",name:"Kramm",   series:6,year:2015,tribe:"Weldos",    pieces:61,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41546",name:"Forx",    series:6,year:2015,tribe:"Weldos",    pieces:61,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41547",name:"Wuzzo",   series:6,year:2015,tribe:"Weldos",    pieces:65,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41548",name:"Dribbal", series:6,year:2015,tribe:"Glorp Corp",pieces:51,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41549",name:"Gurggle", series:6,year:2015,tribe:"Glorp Corp",pieces:60,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41550",name:"Slusho",  series:6,year:2015,tribe:"Glorp Corp",pieces:56,nixel:true, price:"£4–8",rarity:"Uncommon"},
+  {id:"41551",name:"Snax",    series:6,year:2015,tribe:"Munchos",   pieces:56,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41552",name:"Berp",    series:6,year:2015,tribe:"Munchos",   pieces:57,nixel:true, price:"£4–8",rarity:"Uncommon"},
+  {id:"41553",name:"Vaka-Waka",series:6,year:2015,tribe:"Munchos",  pieces:57,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41554",name:"Kuffs",   series:7,year:2016,tribe:"MCPD",      pieces:58,nixel:true, price:"£4–8",rarity:"Uncommon"},
+  {id:"41555",name:"Busto",   series:7,year:2016,tribe:"MCPD",      pieces:60,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41556",name:"Tiketz",  series:7,year:2016,tribe:"MCPD",      pieces:58,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41557",name:"Camillot",series:7,year:2016,tribe:"Medivals",  pieces:67,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41558",name:"Mixadel", series:7,year:2016,tribe:"Medivals",  pieces:62,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41559",name:"Paladum", series:7,year:2016,tribe:"Medivals",  pieces:66,nixel:true, price:"£4–8",rarity:"Uncommon"},
+  {id:"41560",name:"Jamzy",   series:7,year:2016,tribe:"Mixies",    pieces:57,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41561",name:"Tapsy",   series:7,year:2016,tribe:"Mixies",    pieces:57,nixel:true, price:"£4–8",rarity:"Uncommon"},
+  {id:"41562",name:"Trumpsy", series:7,year:2016,tribe:"Mixies",    pieces:60,nixel:false,price:"£4–8",rarity:"Uncommon"},
+  {id:"41563",name:"Splasho", series:8,year:2016,tribe:"MCFD",      pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41564",name:"Aquad",   series:8,year:2016,tribe:"MCFD",      pieces:66,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41565",name:"Hydro",   series:8,year:2016,tribe:"MCFD",      pieces:62,nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41566",name:"Sharx",   series:8,year:2016,tribe:"Pyrratz",   pieces:68,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41567",name:"Skulzy",  series:8,year:2016,tribe:"Pyrratz",   pieces:60,nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41568",name:"Lewt",    series:8,year:2016,tribe:"Pyrratz",   pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41569",name:"Surgeo",  series:8,year:2016,tribe:"Medix",     pieces:66,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41570",name:"Skrubz",  series:8,year:2016,tribe:"Medix",     pieces:57,nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41571",name:"Tuth",    series:8,year:2016,tribe:"Medix",     pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41572",name:"Gobbol",  series:9,year:2016,tribe:"Trashoz",   pieces:57,nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41573",name:"Sweepz",  series:9,year:2016,tribe:"Trashoz",   pieces:65,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41574",name:"Compax",  series:9,year:2016,tribe:"Trashoz",   pieces:62,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41575",name:"Cobrax",  series:9,year:2016,tribe:"Nindjas",   pieces:55,nixel:true, price:"£4–8",rarity:"Common"},
+  {id:"41576",name:"Spinza",  series:9,year:2016,tribe:"Nindjas",   pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41577",name:"Mysto",   series:9,year:2016,tribe:"Nindjas",   pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41578",name:"Screeno", series:9,year:2016,tribe:"Newzers",   pieces:60,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41579",name:"Camsta",  series:9,year:2016,tribe:"Newzers",   pieces:57,nixel:false,price:"£4–8",rarity:"Common"},
+  {id:"41580",name:"Myke",    series:9,year:2016,tribe:"Newzers",   pieces:57,nixel:true, price:"£4–8",rarity:"Common"},
 ];
 
-let owned    = new Set();
+let owned = new Set();
 let wishlist = new Set();
 let currentView = 'all';
 
 function load() {
-  try { const o = localStorage.getItem('mx-owned'); if (o) owned    = new Set(JSON.parse(o)); } catch(e){}
+  try { const o = localStorage.getItem('mx-owned'); if (o) owned = new Set(JSON.parse(o)); } catch(e){}
   try { const w = localStorage.getItem('mx-wish');  if (w) wishlist = new Set(JSON.parse(w)); } catch(e){}
 }
-
 function save() {
   try { localStorage.setItem('mx-owned', JSON.stringify([...owned])); } catch(e){}
   try { localStorage.setItem('mx-wish',  JSON.stringify([...wishlist])); } catch(e){}
 }
-
 function toggleOwned(id) {
   if (owned.has(id)) owned.delete(id);
   else { owned.add(id); wishlist.delete(id); }
   save();
-  if (currentView === 'all') { updateCard(id); renderStats(); }
-  else applyFilters();
+  if (currentView === 'all') { updateCard(id); renderStats(); } else applyFilters();
 }
-
 function toggleWish(id) {
   if (owned.has(id)) return;
-  if (wishlist.has(id)) wishlist.delete(id);
-  else wishlist.add(id);
+  if (wishlist.has(id)) wishlist.delete(id); else wishlist.add(id);
   save();
-  if (currentView === 'all') { updateCard(id); renderStats(); }
-  else applyFilters();
+  if (currentView === 'all') { updateCard(id); renderStats(); } else applyFilters();
 }
-
+function toggleInstructions(id) {
+  const toggle = document.getElementById('instr-toggle-' + id);
+  const panel  = document.getElementById('instr-panel-' + id);
+  if (!toggle || !panel) return;
+  const isOpen = panel.classList.contains('open');
+  toggle.classList.toggle('open', !isOpen);
+  panel.classList.toggle('open', !isOpen);
+  toggle.blur();
+  if (isOpen) toggle.style.color = '';
+}
 function toggleImage(id) {
   const toggle = document.getElementById('img-toggle-' + id);
   const panel  = document.getElementById('img-panel-' + id);
@@ -662,43 +389,33 @@ function toggleImage(id) {
   const isOpen = panel.classList.contains('open');
   toggle.classList.toggle('open', !isOpen);
   panel.classList.toggle('open', !isOpen);
-  if (!isOpen) {
-    const img = panel.querySelector('.set-img');
-    if (img && !img.src) img.src = img.dataset.src;
-  }
+  if (!isOpen) { const img = panel.querySelector('.set-img'); if (img && !img.src) img.src = img.dataset.src; }
 }
-
 function openLightbox(src, name) {
-  const lb = document.getElementById('lightbox');
   document.getElementById('lightboxImg').src = src;
   document.getElementById('lightboxImg').alt = name;
   document.getElementById('lightboxName').textContent = name;
-  lb.classList.add('active');
+  document.getElementById('lightbox').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
-
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
   document.body.style.overflow = '';
 }
-
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
 function updateCard(id) {
   const card = document.getElementById('card-' + id);
   if (!card) return;
-  const io = owned.has(id);
-  const iw = wishlist.has(id);
+  const io = owned.has(id), iw = wishlist.has(id);
   card.className = 'card' + (io ? ' owned-card' : iw ? ' wish-card' : '');
-  const btnOwn  = card.querySelector('.btn-own');
+  const btnOwn = card.querySelector('.btn-own');
   const btnWish = card.querySelector('.btn-wish');
-  btnOwn.className  = 'btn-own'  + (io ? ' is-owned' : '');
-  btnOwn.innerHTML  = io ? '&#x2713; Owned' : 'Mark owned';
+  btnOwn.className = 'btn-own' + (io ? ' is-owned' : '');
+  btnOwn.innerHTML = io ? '&#x2713; Owned' : 'Mark owned';
   btnWish.className = 'btn-wish' + (iw ? ' is-wished' : '');
   btnWish.innerHTML = iw ? '&#x2605; Wish' : '&#x2606; Wish';
-  btnWish.disabled  = io;
+  btnWish.disabled = io;
 }
-
 function setView(v) {
   currentView = v;
   document.querySelectorAll('.tab').forEach((el, i) => {
@@ -706,13 +423,10 @@ function setView(v) {
   });
   applyFilters();
 }
-
-function blUrl(id)   { return 'https://www.bricklink.com/v2/catalog/catalogitem.page?S=' + id + '-1'; }
-function ebayUrl(name, id) {
-  return 'https://www.ebay.co.uk/sch/i.html?_nkw=' + encodeURIComponent('lego mixels ' + id + ' ' + name);
-}
+function blUrl(id) { return 'https://www.bricklink.com/v2/catalog/catalogitem.page?S=' + id + '-1'; }
+function ebayUrl(name, id) { return 'https://www.ebay.co.uk/sch/i.html?_nkw=' + encodeURIComponent('lego mixels ' + id + ' ' + name); }
 function legoInstrUrl(id) { return 'https://www.lego.com/en-gb/service/building-instructions/' + id; }
-
+function rebrickableUrl(id) { return 'https://rebrickable.com/sets/' + id + '-1/'; }
 function rrc(r) { return r==='Common'?'r-common':r==='Uncommon'?'r-uncommon':r==='Rare'?'r-rare':'r-very-rare'; }
 
 function applyFilters() {
@@ -720,7 +434,6 @@ function applyFilters() {
   const sf = document.getElementById('seriesFilter').value;
   const tf = document.getElementById('tribeFilter').value;
   const rf = document.getElementById('rarityFilter').value;
-
   const filtered = SETS.filter(s => {
     if (q && !s.name.toLowerCase().includes(q) && !s.id.includes(q)) return false;
     if (sf !== 'all' && s.series != sf) return false;
@@ -731,29 +444,19 @@ function applyFilters() {
     if (currentView === 'wishlist' && !wishlist.has(s.id)) return false;
     return true;
   });
-
   renderStats();
-
   document.getElementById('resultsCount').textContent = filtered.length + ' / ' + SETS.length + ' sets';
-
   const container = document.getElementById('setContainer');
   if (!filtered.length) {
     const msgs = { owned: 'No sets marked as owned yet.', wishlist: 'Wishlist is empty.', missing: 'Nothing missing.' };
     container.innerHTML = '<div class="empty">' + (msgs[currentView] || 'No sets match.') + '</div>';
     return;
   }
-
   const series = [...new Set(filtered.map(s => s.series))].sort((a,b) => a-b);
-  const seriesNames = {
-    1:'Rise of the Mixels', 2:'Frost & Fang', 3:'Slime & Spikes',
-    4:'Orbitons & Glowkies', 5:'Fire Returns', 6:'Weldos & Munchos',
-    7:'Law & Lore', 8:'Sea & Sickness', 9:'City Chaos'
-  };
-
+  const seriesNames = { 1:'Rise of the Mixels', 2:'Frost & Fang', 3:'Slime & Spikes', 4:'Orbitons & Glowkies', 5:'Fire Returns', 6:'Weldos & Munchos', 7:'Law & Lore', 8:'Sea & Sickness', 9:'City Chaos' };
   let html = '';
-
   series.forEach(sn => {
-    const ws        = filtered.filter(s => s.series === sn);
+    const ws = filtered.filter(s => s.series === sn);
     const allInSeries = SETS.filter(s => s.series === sn);
     const ownedCount = allInSeries.filter(s => owned.has(s.id)).length;
     const wishCount  = allInSeries.filter(s => wishlist.has(s.id)).length;
@@ -761,49 +464,30 @@ function applyFilters() {
     if (wishCount) meta += '  ·  ' + wishCount + ' wishlisted';
     const ac = SERIES_ACCENTS[sn] || '#FB923C';
     const year = ws[0].year;
-
-    html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33">
-      <span>Series ${sn} &mdash; ${seriesNames[sn]} &nbsp;<span style="color:rgba(255,255,255,0.45);font-weight:400">(${year})</span></span>
-      <span class="section-head-right">${meta}</span>
-    </div>`;
-
-    // Group by tribe within each series
+    html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33"><span>Series ${sn} &mdash; ${seriesNames[sn]} &nbsp;<span style="color:rgba(255,255,255,0.45);font-weight:400">(${year})</span></span><span class="section-head-right">${meta}</span></div>`;
     const tribes = [...new Set(ws.map(s => s.tribe))];
     tribes.forEach(tribe => {
       const tribesets = ws.filter(s => s.tribe === tribe);
       const tc = TRIBE_COLORS[tribe] || { bg: 'rgba(255,255,255,0.06)', color: '#ccc', border: 'rgba(255,255,255,0.15)' };
-
-      html += `<div class="tribe-head" style="color:${tc.color};opacity:0.7">${tribe}</div>`;
-      html += '<div class="grid">';
-
+      html += `<div class="tribe-head" style="color:${tc.color};opacity:0.7">${tribe}</div><div class="grid">`;
       tribesets.forEach((s, idx) => {
-        const io    = owned.has(s.id);
-        const iw    = wishlist.has(s.id);
+        const io = owned.has(s.id), iw = wishlist.has(s.id);
         const delay = Math.min(idx * 0.05, 0.3);
-
-        html += `<div class="card ${io ? 'owned-card' : iw ? 'wish-card' : ''}" id="card-${s.id}" style="animation-delay:${delay}s">
-          <div class="card-top">
-            <span class="set-num" style="color:${ac}">#${s.id}</span>
-            <span class="rarity-badge ${rrc(s.rarity)}">${s.rarity}</span>
-          </div>
+        html += `<div class="card ${io?'owned-card':iw?'wish-card':''}" id="card-${s.id}" style="animation-delay:${delay}s;--wave-color:${ac}">
+          <div class="card-top"><span class="set-num" style="color:${ac}">#${s.id}</span><span class="rarity-badge ${rrc(s.rarity)}">${s.rarity}</span></div>
           <div class="card-name">${s.name}</div>
-          <div class="card-meta">
-            <span class="tribe-badge" style="background:${tc.bg};color:${tc.color};border:0.5px solid ${tc.border}">${tribe}</span>
-          </div>
-          <div class="card-meta">
-            <span class="tag t-pieces">${s.pieces} pcs</span>
-            ${s.nixel ? '<span class="tag t-nixel">+ Nixel</span>' : ''}
-          </div>
+          <div class="card-meta"><span class="tribe-badge" style="background:${tc.bg};color:${tc.color};border:0.5px solid ${tc.border}">${tribe}</span></div>
+          <div class="card-meta"><span class="tag t-pieces">${s.pieces} pcs</span>${s.nixel?'<span class="tag t-nixel">+ Nixel</span>':''}</div>
           <div class="card-price">Est. <b>${s.price}</b></div>
           <div class="card-actions">
-            <button class="btn-own ${io ? 'is-owned' : ''}" onclick="toggleOwned('${s.id}')">${io ? '&#x2713; Owned' : 'Mark owned'}</button>
-            <button class="btn-wish ${iw ? 'is-wished' : ''}" onclick="toggleWish('${s.id}')" ${io ? 'disabled' : ''}>
-              ${iw ? '&#x2605; Wish' : '&#x2606; Wish'}
+            <button class="btn-own ${io?'is-owned':''}" onclick="toggleOwned('${s.id}')">${io?'&#x2713; Owned':'Mark owned'}</button>
+            <button class="btn-wish ${iw?'is-wished':''}" onclick="toggleWish('${s.id}')" ${io?'disabled':''}>
+              ${iw?'&#x2605; Wish':'&#x2606; Wish'}
             </button>
           </div>
           <div class="buy-links">
             <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${blUrl(s.id)}" target="_blank" rel="noopener">BrickLink</a>
-            <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${ebayUrl(s.name, s.id)}" target="_blank" rel="noopener">eBay UK</a>
+            <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${ebayUrl(s.name,s.id)}" target="_blank" rel="noopener">eBay UK</a>
           </div>
           <button class="img-toggle" id="img-toggle-${s.id}" onclick="toggleImage('${s.id}')" style="color:rgba(255,255,255,0.45);border-top-color:${ac}20">
             <span style="display:flex;align-items:center;gap:5px">
@@ -813,59 +497,56 @@ function applyFilters() {
             <svg class="img-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
           </button>
           <div class="img-panel" id="img-panel-${s.id}">
-            <div class="img-inner">
-              <div class="img-content">
-                <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" onclick="if(this.src)openLightbox(this.src,'${s.name}')" />
-                <div class="img-error" style="display:none">No image available</div>
-              </div>
-            </div>
+            <div class="img-inner"><div class="img-content">
+              <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" onclick="if(this.src)openLightbox(this.src,'${s.name}')" />
+              <div class="img-error" style="display:none">No image available</div>
+            </div></div>
+          </div>
+          <button class="instructions-toggle" style="--instr-color:${ac}" id="instr-toggle-${s.id}" onclick="toggleInstructions('${s.id}')">
+            <span class="instr-label">
+              <svg class="instr-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.746c-.917-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/></svg>
+              Instructions
+            </span>
+            <svg class="instr-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="instructions-panel" id="instr-panel-${s.id}">
+            <div class="instructions-inner"><div class="instructions-content">
+              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${legoInstrUrl(s.id)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                LEGO Official
+              </a>
+              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${rebrickableUrl(s.id)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                Rebrickable
+              </a>
+              <p class="instr-note">Older sets may not appear on LEGO's site — Rebrickable hosts scanned instructions for discontinued sets.</p>
+            </div></div>
           </div>
         </div>`;
       });
-
       html += '</div>';
     });
   });
-
   container.innerHTML = html;
 }
 
 function renderStats() {
-  const total = SETS.length;
-  const own   = owned.size;
-  const wl    = wishlist.size;
-  const pct   = Math.round((own / total) * 100);
+  const total = SETS.length, own = owned.size, wl = wishlist.size;
+  const pct = Math.round((own/total)*100);
   const nixelOwn = SETS.filter(s => s.nixel && owned.has(s.id)).length;
   const nixelTot = SETS.filter(s => s.nixel).length;
-
   document.getElementById('statBar').innerHTML = `
-    <div class="stat">
-      <div class="stat-label">Total sets</div>
-      <div class="stat-val">${own}/${total}</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Owned</div>
-      <div class="stat-val orange">${own}</div>
-      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Collection</div>
-      <div class="stat-val">${pct}<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span></div>
-      <div class="stat-sub">${nixelOwn}/${nixelTot} w/ nixel</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Wishlist</div>
-      <div class="stat-val amber">${wl}</div>
-    </div>`;
-
+    <div class="stat"><div class="stat-label">Total sets</div><div class="stat-val">${own}/${total}</div></div>
+    <div class="stat"><div class="stat-label">Owned</div><div class="stat-val orange">${own}</div><div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div></div>
+    <div class="stat"><div class="stat-label">Collection</div><div class="stat-val">${pct}<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span></div><div class="stat-sub">${nixelOwn}/${nixelTot} w/ nixel</div></div>
+    <div class="stat"><div class="stat-label">Wishlist</div><div class="stat-val amber">${wl}</div></div>`;
   const now = new Date();
-  document.getElementById('headerRight').innerHTML =
-    'DATA: BRICKSET 2026<br>SETS: ' + total + ' INDEXED<br>' +
-    now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  document.getElementById('headerRight').innerHTML = 'DATA: BRICKSET 2026<br>SETS: ' + total + ' INDEXED<br>' + now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
 }
 
 load();
 applyFilters();
 </script>
+
 </body>
 </html>
