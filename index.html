@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Your Stash">
+<meta name="apple-mobile-web-app-title" content="Jamie's Stash">
 <meta name="theme-color" content="#08090f">
-<title>Your Stash</title>
+<title>Jamie's Stash</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -26,177 +25,245 @@
   --mx-color: #F97316;
 }
 
-- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 html, body {
-height: 100%;
-background: var(–bg);
-color: var(–text);
-font-family: ‘Exo 2’, sans-serif;
-overscroll-behavior: none;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  overscroll-behavior: none;
 }
 
+/* Scanline texture */
 body::before {
-content: ‘’;
-position: fixed;
-inset: 0;
-background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
-pointer-events: none;
-z-index: 0;
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+  pointer-events: none;
+  z-index: 0;
 }
 
+/* Subtle radial glow in centre */
 body::after {
-content: ‘’;
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-width: 800px;
-height: 800px;
-background: radial-gradient(ellipse at center, rgba(232,121,249,0.04) 0%, transparent 70%);
-pointer-events: none;
-z-index: 0;
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(ellipse at center, rgba(232,121,249,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .page {
-position: relative;
-z-index: 1;
-min-height: 100vh;
-min-height: -webkit-fill-available;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: calc(env(safe-area-inset-top) + 40px) 24px calc(env(safe-area-inset-bottom) + 40px);
-gap: 56px;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top) + 40px) 24px calc(env(safe-area-inset-bottom) + 40px);
+  gap: 56px;
 }
 
-.header { text-align: center; animation: fadeUp 0.6s ease both; }
+/* ---- HEADER ---- */
+.header {
+  text-align: center;
+  animation: fadeUp 0.6s ease both;
+}
 
-.lego-badge { display: inline-block; margin-bottom: 20px; }
+.lego-badge {
+  display: inline-block;
+  margin-bottom: 20px;
+}
 
-.lego-badge img { width: 52px; height: 52px; object-fit: contain; border-radius: 10px; }
+.lego-badge img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 10px;
+}
 
 .title {
-font-family: ‘Rajdhani’, sans-serif;
-font-size: clamp(36px, 10vw, 64px);
-font-weight: 700;
-letter-spacing: 0.06em;
-text-transform: uppercase;
-line-height: 1;
-background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.55) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(36px, 10vw, 64px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.55) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
-margin-top: 10px;
-font-family: ‘Share Tech Mono’, monospace;
-font-size: 11px;
-color: var(–text3);
-letter-spacing: 0.2em;
-text-transform: uppercase;
+  margin-top: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
+/* ---- CARDS ---- */
 .cards {
-display: flex;
-gap: 16px;
-flex-wrap: wrap;
-justify-content: center;
-width: 100%;
-max-width: 640px;
-animation: fadeUp 0.6s 0.15s ease both;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 640px;
+  animation: fadeUp 0.6s 0.15s ease both;
 }
 
 .card {
-flex: 1 1 260px;
-min-width: 0;
-max-width: 300px;
-text-decoration: none;
-background: var(–bg3);
-border: 0.5px solid var(–border2);
-border-radius: 16px;
-padding: 28px 24px;
-display: flex;
-flex-direction: column;
-gap: 14px;
-position: relative;
-overflow: hidden;
-transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-cursor: pointer;
+  flex: 1 1 260px;
+  min-width: 0;
+  max-width: 300px;
+  text-decoration: none;
+  background: var(--bg3);
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .card::before {
-content: ‘’;
-position: absolute;
-top: 0; left: 0; right: 0;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(–card-color, #fff), transparent);
-opacity: 0.4;
-transition: opacity 0.2s;
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-color, #fff), transparent);
+  opacity: 0.4;
+  transition: opacity 0.2s;
 }
 
 .card::after {
-content: ‘’;
-position: absolute;
-inset: 0;
-background: radial-gradient(ellipse at top left, var(–card-color, #fff) 0%, transparent 60%);
-opacity: 0;
-transition: opacity 0.2s;
-pointer-events: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, var(--card-color, #fff) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
-.card:hover { transform: translateY(-4px); border-color: var(–card-color, #fff); box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 0.5px var(–card-color, #fff); }
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color, #fff);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 0.5px var(--card-color, #fff);
+}
+
 .card:hover::after { opacity: 0.05; }
 .card:hover::before { opacity: 0.8; }
 
-.card-hf { –card-color: var(–hf-color); }
-.card-mx { –card-color: var(–mx-color); }
+.card-hf { --card-color: var(--hf-color); }
+.card-mx { --card-color: var(--mx-color); }
 
 .card-icon {
-width: 48px; height: 48px; border-radius: 10px;
-display: flex; align-items: center; justify-content: center;
-background: rgba(255,255,255,0.05);
-border: 0.5px solid rgba(255,255,255,0.08);
-flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
 
 .card-hf .card-icon { background: rgba(232,121,249,0.1); border-color: rgba(232,121,249,0.2); }
 .card-mx .card-icon { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.2); }
 
-.card-label { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(–card-color); opacity: 0.7; }
+.card-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--card-color);
+  opacity: 0.7;
+}
 
-.card-title { font-family: ‘Rajdhani’, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(–text); line-height: 1.1; }
+.card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
 
-.card-desc { font-size: 12px; color: var(–text2); line-height: 1.6; font-weight: 300; }
+.card-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
 
 .card-arrow {
-margin-top: auto;
-display: flex; align-items: center; gap: 6px;
-font-family: ‘Rajdhani’, sans-serif; font-size: 11px; font-weight: 600;
-letter-spacing: 0.1em; text-transform: uppercase;
-color: var(–card-color); opacity: 0.7;
-transition: opacity 0.2s, gap 0.2s;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--card-color);
+  opacity: 0.7;
+  transition: opacity 0.2s, gap 0.2s;
 }
 
 .card:hover .card-arrow { opacity: 1; gap: 10px; }
-.card-arrow svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+
+.card-arrow svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: transform 0.2s;
+}
+
 .card:hover .card-arrow svg { transform: translateX(3px); }
 
-.footer { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: var(–text3); letter-spacing: 0.12em; text-transform: uppercase; text-align: center; animation: fadeUp 0.6s 0.3s ease both; }
+/* ---- FOOTER ---- */
+.footer {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
 
 @keyframes fadeUp {
-from { opacity: 0; transform: translateY(12px); }
-to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 480px) {
-.cards { flex-direction: column; align-items: center; }
-.card { max-width: 100%; }
+  .cards { flex-direction: column; align-items: center; }
+  .card { max-width: 100%; }
 }
 </style>
-
 </head>
 <body>
 <div class="page">
@@ -205,57 +272,61 @@ to   { opacity: 1; transform: translateY(0); }
     <div class="lego-badge">
       <img src="/lego-logo.png" alt="LEGO" />
     </div>
-    <div class="title">Your Stash</div>
-    <div class="subtitle">Collection Tracker &nbsp;&middot;&nbsp; Select a theme</div>
+    <div class="title">Jamie's Stash</div>
+    <div class="subtitle">Collection Tracker &nbsp;·&nbsp; Select a theme</div>
   </div>
 
   <div class="cards">
 
-```
-<a class="card card-hf" href="/hero-factory.html">
-  <div class="card-icon">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect x="3" y="4" width="9" height="4" rx="1" fill="#E879F9" opacity="0.9"/>
-      <rect x="16" y="4" width="9" height="4" rx="1" fill="#E879F9" opacity="0.9"/>
-      <rect x="1" y="8" width="26" height="16" rx="3" fill="#E879F9" opacity="0.85"/>
-      <rect x="1" y="8" width="26" height="2" fill="rgba(0,0,0,0.15)"/>
-    </svg>
-  </div>
-  <div>
-    <div class="card-label">2010 &ndash; 2014</div>
-    <div class="card-title">Hero Factory</div>
-  </div>
-  <div class="card-desc">Track your Hero Factory collection across all 6 waves &mdash; 91 sets indexed.</div>
-  <div class="card-arrow">
-    Open tracker
-    <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-  </div>
-</a>
+    <a class="card card-hf" href="/hero-factory.html">
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- studs -->
+          <rect x="3" y="4" width="9" height="4" rx="1" fill="#E879F9" opacity="0.9"/>
+          <rect x="16" y="4" width="9" height="4" rx="1" fill="#E879F9" opacity="0.9"/>
+          <!-- brick body -->
+          <rect x="1" y="8" width="26" height="16" rx="3" fill="#E879F9" opacity="0.85"/>
+          <!-- inner shadow line -->
+          <rect x="1" y="8" width="26" height="2" rx="0" fill="rgba(0,0,0,0.15)"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-label">2010 – 2014</div>
+        <div class="card-title">Hero Factory</div>
+      </div>
+      <div class="card-desc">Track your Hero Factory collection across all 6 waves — 91 sets indexed.</div>
+      <div class="card-arrow">
+        Open tracker
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
 
-<a class="card card-mx" href="/mixels.html">
-  <div class="card-icon">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect x="3" y="4" width="9" height="4" rx="1" fill="#F97316" opacity="0.9"/>
-      <rect x="16" y="4" width="9" height="4" rx="1" fill="#F97316" opacity="0.9"/>
-      <rect x="1" y="8" width="26" height="16" rx="3" fill="#F97316" opacity="0.85"/>
-      <rect x="1" y="8" width="26" height="2" fill="rgba(0,0,0,0.15)"/>
-    </svg>
-  </div>
-  <div>
-    <div class="card-label">2014 &ndash; 2016</div>
-    <div class="card-title">Mixels</div>
-  </div>
-  <div class="card-desc">Track your Mixels collection across all 9 series &mdash; 81 sets indexed.</div>
-  <div class="card-arrow">
-    Open tracker
-    <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-  </div>
-</a>
-```
+    <a class="card card-mx" href="/mixels.html">
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- studs -->
+          <rect x="3" y="4" width="9" height="4" rx="1" fill="#F97316" opacity="0.9"/>
+          <rect x="16" y="4" width="9" height="4" rx="1" fill="#F97316" opacity="0.9"/>
+          <!-- brick body -->
+          <rect x="1" y="8" width="26" height="16" rx="3" fill="#F97316" opacity="0.85"/>
+          <!-- inner shadow line -->
+          <rect x="1" y="8" width="26" height="2" rx="0" fill="rgba(0,0,0,0.15)"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-label">2014 – 2016</div>
+        <div class="card-title">Mixels</div>
+      </div>
+      <div class="card-desc">Track your Mixels collection across all series — coming soon.</div>
+      <div class="card-arrow">
+        Open tracker
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
 
   </div>
 
-  <div class="footer">Your Stash &nbsp;&middot;&nbsp; LEGO Collection Tracker</div>
+  <div class="footer">Jamie's Stash &nbsp;·&nbsp; LEGO Collection Tracker</div>
 
 </div>
 </body>
