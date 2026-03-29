@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bionicle G2">
+<meta name="theme-color" content="#0a0c12">
+<title>Bionicle G2 — Collection Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c12;
+  --bg2: #0f1219;
+  --bg3: #141720;
+  --bg4: #1a1e2a;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --border3: rgba(255,255,255,0.18);
+  --blue: #378ADD;
+  --blue-dim: rgba(55,138,221,0.15);
+  --blue-border: rgba(55,138,221,0.35);
+  --blue-text: #85B7EB;
+  --amber: #EF9F27;
+  --amber-dim: rgba(239,159,39,0.12);
+  --amber-border: rgba(239,159,39,0.35);
+  --amber-text: #FAC775;
+  --red-dim: rgba(226,75,74,0.12);
+  --red-text: #F09595;
+  --purple-dim: rgba(127,119,221,0.12);
+  --purple-text: #AFA9EC;
+  --teal-dim: rgba(29,158,117,0.12);
+  --teal-text: #5DCAA5;
+  --coral-dim: rgba(239,99,23,0.12);
+  --coral-text: #F0997B;
+  --pink-dim: rgba(212,83,126,0.12);
+  --pink-text: #ED93B1;
+  --text: rgba(255,255,255,0.88);
+  --text2: rgba(255,255,255,0.5);
+  --text3: rgba(255,255,255,0.28);
+  --text4: rgba(255,255,255,0.14);
+  --accent: #7DD3FC;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- HEADER ---- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top) + 20px) 0 16px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-hex {
+  width: 36px;
+  height: 36px;
+  background: var(--blue-dim);
+  border: 0.5px solid var(--blue-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-hex svg { width: 18px; height: 18px; fill: var(--blue); }
+
+.logo-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.logo-sub {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.header-right {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* ---- STATS ---- */
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  background: var(--bg3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border3), transparent);
+}
+
+.stat-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.stat-val {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.stat-val.blue { color: var(--blue); }
+.stat-val.amber { color: var(--amber); }
+
+.stat-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.prog-track {
+  margin-top: 6px;
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.prog-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 1px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(55,138,221,0.6);
+}
+
+/* ---- TABS ---- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 0.5px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text3);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.tab:hover { color: var(--text2); border-color: var(--border3); }
+
+.tab.active {
+  background: var(--blue-dim);
+  color: var(--blue-text);
+  border-color: var(--blue-border);
+}
+
+.tab.wish-tab.active {
+  background: var(--amber-dim);
+  color: var(--amber-text);
+  border-color: var(--amber-border);
+}
+
+/* ---- FILTERS ---- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.search-wrap {
+  flex: 1 1 200px;
+  min-width: 0;
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13px;
+  height: 13px;
+  fill: var(--text3);
+  pointer-events: none;
+}
+
+input[type="text"] {
+  width: 100%;
+  height: 34px;
+  background: var(--bg3);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 13px;
+  padding: 0 10px 0 30px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input[type="text"]::placeholder { color: var(--text4); }
+input[type="text"]:focus { border-color: var(--blue-border); }
+
+select {
+  height: 34px;
+  background: var(--bg3);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 12px;
+  padding: 0 10px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+select:focus { border-color: var(--blue-border); }
+select option { background: #1a1e2a; }
+
+.results-count {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+/* ---- SECTION HEADER ---- */
+.section-head {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 20px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid rgba(125,211,252,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-head-right {
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+}
+
+/* ---- GRID ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+/* ---- CARD ---- */
+.card {
+  background: var(--bg3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transition: border-color 0.15s;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.25s ease both;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.card:hover::after { opacity: 1; }
+.card:hover { border-color: var(--border2); }
+
+.card.owned-card {
+  border-color: rgba(55,138,221,0.4);
+  background: rgba(55,138,221,0.05);
+}
+
+.card.owned-card::after {
+  opacity: 1;
+  background: linear-gradient(90deg, transparent, rgba(55,138,221,0.4), transparent);
+}
+
+.card.wish-card {
+  border-color: rgba(239,159,39,0.35);
+  background: rgba(239,159,39,0.04);
+}
+
+.card.wish-card::after {
+  opacity: 1;
+  background: linear-gradient(90deg, transparent, rgba(239,159,39,0.35), transparent);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.set-num {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+}
+
+.rarity-badge {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.r-common    { background: rgba(68,68,65,0.5);  color: #B4B2A9; border: 0.5px solid rgba(180,178,169,0.2); }
+.r-uncommon  { background: rgba(12,68,124,0.4);  color: #85B7EB; border: 0.5px solid rgba(133,183,235,0.25); }
+.r-rare      { background: rgba(60,52,137,0.4);  color: #AFA9EC; border: 0.5px solid rgba(175,169,236,0.25); }
+.r-very-rare { background: rgba(99,56,6,0.5);    color: #FAC775; border: 0.5px solid rgba(250,199,117,0.3); }
+.r-promo     { background: rgba(40,100,60,0.5);  color: #86EFAC; border: 0.5px solid rgba(134,239,172,0.3); }
+
+.card-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.card-meta {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 9px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.t-toa        { background: var(--blue-dim);   color: var(--blue-text); }
+.t-protector  { background: var(--teal-dim);   color: var(--teal-text); }
+.t-villain    { background: var(--red-dim);    color: var(--red-text); }
+.t-creature   { background: var(--purple-dim); color: var(--purple-text); }
+.t-combiner   { background: var(--pink-dim);   color: var(--pink-text); }
+.t-accessory  { background: rgba(100,100,100,0.15); color: #CBD5E1; }
+.t-pieces     { background: rgba(125,211,252,0.07); color: var(--accent); }
+
+.card-price {
+  font-size: 11px;
+  color: var(--accent);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.card-price b { color: var(--text2); font-weight: 400; }
+
+.card-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-own, .btn-wish {
+  flex: 1;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 0.5px solid var(--border2);
+  background: var(--bg4);
+  color: var(--accent);
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.btn-own:hover { border-color: rgba(55,138,221,0.4); color: var(--blue-text); }
+.btn-wish:hover { border-color: rgba(239,159,39,0.4); color: var(--amber-text); }
+
+.btn-own.is-owned {
+  background: var(--blue-dim);
+  color: var(--blue-text);
+  border-color: var(--blue-border);
+}
+
+.btn-wish.is-wished {
+  background: var(--amber-dim);
+  color: var(--amber-text);
+  border-color: var(--amber-border);
+}
+
+.btn-wish:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.buy-links {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-buy {
+  flex: 1;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 0.5px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.15s;
+  display: block;
+}
+
+.btn-buy:hover { border-color: var(--border3); color: var(--text2); }
+
+/* ---- INSTRUCTIONS PANEL ---- */
+.instructions-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  background: none;
+  border: none;
+  border-top: 0.5px solid var(--border);
+  padding: 6px 0 0;
+  cursor: pointer;
+  transition: color 0.15s;
+  user-select: none;
+  margin-top: 2px;
+}
+
+.instructions-toggle svg { color: rgba(255,255,255,0.45); transition: color 0.15s; }
+.instructions-toggle:hover { color: var(--instr-color, var(--accent)); }
+.instructions-toggle:hover .instr-icon { color: var(--instr-color, var(--accent)); }
+.instructions-toggle.open { color: var(--instr-color, var(--accent)) !important; }
+.instructions-toggle:not(.open) { color: rgba(255,255,255,0.45) !important; }
+.instructions-toggle:not(.open) svg { color: rgba(255,255,255,0.45) !important; }
+
+.instr-label { display: flex; align-items: center; gap: 5px; }
+.instr-icon { width: 13px; height: 13px; flex-shrink: 0; transition: color 0.15s; }
+.instr-chevron { width: 10px; height: 10px; transition: transform 0.2s ease; flex-shrink: 0; }
+.instructions-toggle.open .instr-chevron { transform: rotate(180deg); }
+
+.instructions-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s ease;
+}
+.instructions-panel.open { grid-template-rows: 1fr; }
+.instructions-inner { overflow: hidden; }
+.instructions-content { padding-top: 8px; display: flex; flex-direction: column; gap: 5px; }
+
+.btn-instr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 0.5px solid rgba(125,211,252,0.15);
+  background: rgba(125,211,252,0.04);
+  color: var(--instr-color, var(--accent));
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.btn-instr:hover { border-color: rgba(125,211,252,0.35); background: rgba(125,211,252,0.1); color: #fff; }
+.btn-instr svg { width: 11px; height: 11px; flex-shrink: 0; fill: currentColor; opacity: 0.7; }
+
+.instr-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--text4);
+  line-height: 1.5;
+  padding: 0 2px;
+}
+
+/* ---- IMAGE PANEL ---- */
+.img-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  background: none;
+  border: none;
+  border-top: 0.5px solid var(--border);
+  padding: 6px 0 0;
+  cursor: pointer;
+  transition: color 0.15s;
+  user-select: none;
+  margin-top: 2px;
+}
+.img-toggle:hover { color: var(--accent); }
+.img-chevron { width: 10px; height: 10px; transition: transform 0.2s ease; flex-shrink: 0; }
+.img-toggle.open .img-chevron { transform: rotate(180deg); }
+
+.img-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.25s ease; }
+.img-panel.open { grid-template-rows: 1fr; }
+.img-inner { overflow: hidden; }
+.img-content { padding-top: 8px; }
+
+.set-img {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  display: block;
+  background: var(--bg4);
+  border: 0.5px solid var(--border);
+  min-height: 80px;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+.img-error {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--text4);
+  text-align: center;
+  padding: 16px 0 8px;
+}
+
+/* ---- LIGHTBOX ---- */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.96);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  cursor: zoom-out;
+  overflow: hidden;
+}
+.lightbox.active { display: flex; }
+.lightbox-img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 0 60px rgba(0,0,0,0.8); cursor: zoom-out; }
+.lightbox-close {
+  position: fixed; top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid var(--border3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text2); font-size: 18px; line-height: 1;
+  transition: background 0.15s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.2); }
+.lightbox-name {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2);
+  background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 20px; white-space: nowrap;
+}
+
+/* ---- EMPTY STATE ---- */
+.empty {
+  text-align: center; padding: 4rem 2rem;
+  color: var(--accent); font-size: 14px;
+  font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em;
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 480px) {
+  .stat-bar { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .header-right { display: none; }
+  .results-count { display: none; }
+}
+@media (max-width: 360px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">
+      <a href="/index.html" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border2);color:var(--text3);text-decoration:none;flex-shrink:0;transition:border-color 0.15s,color 0.15s;" title="Back to home" onmouseover="this.style.borderColor='var(--border3)';this.style.color='var(--text2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+      </a>
+      <div class="logo-hex" style="width:44px;height:44px;border-radius:8px;background:transparent;border:none;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <img src="/lego-logo.png" alt="LEGO" style="width:44px;height:44px;object-fit:contain;border-radius:8px;" />
+      </div>
+      <div class="logo-words">
+        <div class="logo-title">Bionicle G2</div>
+        <div class="logo-sub">Collection Tracker</div>
+      </div>
+    </div>
+    <div class="header-right" id="headerRight"></div>
+  </div>
+
+  <div class="stat-bar" id="statBar"></div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="setView('all')">All sets</div>
+    <div class="tab" onclick="setView('owned')">Owned</div>
+    <div class="tab" onclick="setView('missing')">Missing</div>
+    <div class="tab wish-tab" onclick="setView('wishlist')">Wishlist</div>
+  </div>
+
+  <div class="filters">
+    <div class="search-wrap">
+      <svg viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+      <input type="text" id="search" placeholder="Search sets or set numbers..." oninput="applyFilters()" />
+    </div>
+    <select id="waveFilter" onchange="applyFilters()">
+      <option value="all">All waves</option>
+      <option value="1">Wave 1 — Masters (2015)</option>
+      <option value="2">Wave 2 — Uniters (2016)</option>
+    </select>
+    <select id="rarityFilter" onchange="applyFilters()">
+      <option value="all">All rarities</option>
+      <option value="Common">Common</option>
+      <option value="Uncommon">Uncommon</option>
+      <option value="Rare">Rare</option>
+      <option value="Very Rare">Very Rare</option>
+      <option value="Promotional">Promotional</option>
+    </select>
+    <select id="typeFilter" onchange="applyFilters()">
+      <option value="all">All types</option>
+      <option value="Toa">Toa</option>
+      <option value="Protector">Protector</option>
+      <option value="Villain">Villain</option>
+      <option value="Creature">Creature</option>
+      <option value="Combiner">Combiner</option>
+      <option value="Accessory">Accessory</option>
+    </select>
+    <select id="charFilter" onchange="applyFilters()">
+      <option value="all">All characters</option>
+      <option value="Tahu">Tahu</option>
+      <option value="Kopaka">Kopaka</option>
+      <option value="Gali">Gali</option>
+      <option value="Pohatu">Pohatu</option>
+      <option value="Lewa">Lewa</option>
+      <option value="Onua">Onua</option>
+      <option value="Skull Warrior">Skull Warrior</option>
+      <option value="Skull Slicer">Skull Slicer</option>
+      <option value="Skull Scorpio">Skull Scorpio</option>
+      <option value="Skull Basher">Skull Basher</option>
+      <option value="Skull Grinder">Skull Grinder</option>
+      <option value="Lord of Skull Spiders">Lord of Skull Spiders</option>
+      <option value="Ekimu">Ekimu</option>
+      <option value="Umarak">Umarak</option>
+      <option value="Uxar">Uxar</option>
+      <option value="Ketar">Ketar</option>
+      <option value="Akida">Akida</option>
+      <option value="Melum">Melum</option>
+      <option value="Terak">Terak</option>
+      <option value="Ikir">Ikir</option>
+    </select>
+    <span class="results-count" id="resultsCount"></span>
+  </div>
+
+  <div id="setContainer"></div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <div class="lightbox-name" id="lightboxName"></div>
+  </div>
+
+</div>
+
+<script>
+const SETS = [
+  // ── WAVE 1 — 2015 ──────────────────────────────────────────────────────────
+  // Toa (small)
+  {id:"70778",name:"Protector of Jungle",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:70,price:"£8–18",chars:["Lewa"]},
+  {id:"70779",name:"Protector of Stone",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:67,price:"£8–18",chars:["Pohatu"]},
+  {id:"70780",name:"Protector of Water",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:71,price:"£8–18",chars:["Gali"]},
+  {id:"70781",name:"Protector of Earth",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:66,price:"£8–18",chars:["Onua"]},
+  {id:"70782",name:"Protector of Ice",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:66,price:"£8–18",chars:["Kopaka"]},
+  {id:"70783",name:"Protector of Fire",wave:1,wn:"Masters",year:2015,type:"Protector",rarity:"Common",pieces:69,price:"£8–18",chars:["Tahu"]},
+  // Toa (large)
+  {id:"70784",name:"Lewa — Master of Jungle",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:99,price:"£15–30",chars:["Lewa"]},
+  {id:"70785",name:"Pohatu — Master of Stone",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:107,price:"£15–30",chars:["Pohatu"]},
+  {id:"70786",name:"Gali — Master of Water",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:87,price:"£15–30",chars:["Gali"]},
+  {id:"70787",name:"Tahu — Master of Fire",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:85,price:"£15–30",chars:["Tahu"]},
+  {id:"70788",name:"Kopaka — Master of Ice",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:97,price:"£15–30",chars:["Kopaka"]},
+  {id:"70789",name:"Onua — Master of Earth",wave:1,wn:"Masters",year:2015,type:"Toa",rarity:"Uncommon",pieces:128,price:"£15–30",chars:["Onua"]},
+  // Skull Villains
+  {id:"70790",name:"Lord of Skull Spiders",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Uncommon",pieces:149,price:"£15–30",chars:[]},
+  {id:"70791",name:"Skull Warrior",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Common",pieces:102,price:"£12–25",chars:["Skull Warrior"]},
+  {id:"70792",name:"Skull Slicer",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Common",pieces:100,price:"£12–25",chars:["Skull Slicer"]},
+  {id:"70793",name:"Skull Basher",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Uncommon",pieces:119,price:"£18–38",chars:["Skull Basher"]},
+  {id:"70794",name:"Skull Scorpio",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Uncommon",pieces:143,price:"£18–38",chars:["Skull Scorpio"]},
+  {id:"70795",name:"Mask Maker vs. Skull Grinder",wave:1,wn:"Masters",year:2015,type:"Villain",rarity:"Rare",pieces:145,price:"£25–55",chars:["Skull Grinder","Ekimu"]},
+
+  // ── WAVE 2 — 2016 ──────────────────────────────────────────────────────────
+  // Elemental Creatures (Melum has no standalone set — comes with 71311)
+  {id:"71300",name:"Uxar — Creature of Jungle",wave:2,wn:"Uniters",year:2016,type:"Creature",rarity:"Common",pieces:80,price:"£8–18",chars:["Uxar","Lewa"]},
+  {id:"71301",name:"Ketar — Creature of Stone",wave:2,wn:"Uniters",year:2016,type:"Creature",rarity:"Common",pieces:80,price:"£8–18",chars:["Ketar","Pohatu"]},
+  {id:"71302",name:"Akida — Creature of Water",wave:2,wn:"Uniters",year:2016,type:"Creature",rarity:"Common",pieces:100,price:"£8–18",chars:["Akida","Gali"]},
+  {id:"71303",name:"Ikir — Creature of Fire",wave:2,wn:"Uniters",year:2016,type:"Creature",rarity:"Common",pieces:77,price:"£8–18",chars:["Ikir","Tahu"]},
+  {id:"71304",name:"Terak — Creature of Earth",wave:2,wn:"Uniters",year:2016,type:"Creature",rarity:"Common",pieces:97,price:"£8–18",chars:["Terak","Onua"]},
+  // Uniters
+  {id:"71305",name:"Lewa — Uniter of Jungle",wave:2,wn:"Uniters",year:2016,type:"Toa",rarity:"Uncommon",pieces:79,price:"£15–30",chars:["Lewa"]},
+  {id:"71306",name:"Pohatu — Uniter of Stone",wave:2,wn:"Uniters",year:2016,type:"Toa",rarity:"Uncommon",pieces:86,price:"£15–30",chars:["Pohatu"]},
+  {id:"71307",name:"Gali — Uniter of Water",wave:2,wn:"Uniters",year:2016,type:"Toa",rarity:"Uncommon",pieces:87,price:"£15–30",chars:["Gali"]},
+  {id:"71308",name:"Tahu — Uniter of Fire",wave:2,wn:"Uniters",year:2016,type:"Toa",rarity:"Uncommon",pieces:85,price:"£15–30",chars:["Tahu"]},
+  {id:"71309",name:"Onua — Uniter of Earth",wave:2,wn:"Uniters",year:2016,type:"Toa",rarity:"Uncommon",pieces:167,price:"£18–38",chars:["Onua"]},
+  {id:"71311",name:"Kopaka and Melum — Unity Set",wave:2,wn:"Uniters",year:2016,type:"Combiner",rarity:"Rare",pieces:187,price:"£30–65",chars:["Kopaka","Melum"]},
+  // Villain / Hunter
+  {id:"71310",name:"Umarak the Hunter",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Uncommon",pieces:172,price:"£20–45",chars:["Umarak"]},
+  // Summer wave
+  {id:"71312",name:"Ekimu the Mask Maker",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Uncommon",pieces:174,price:"£20–45",chars:["Ekimu"]},
+  {id:"71313",name:"Lava Beast",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Uncommon",pieces:139,price:"£18–38",chars:["Umarak"]},
+  {id:"71314",name:"Storm Beast",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Uncommon",pieces:133,price:"£18–38",chars:["Umarak"]},
+  {id:"71315",name:"Quake Beast",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Uncommon",pieces:131,price:"£18–38",chars:["Umarak"]},
+  {id:"71316",name:"Umarak the Destroyer",wave:2,wn:"Uniters",year:2016,type:"Villain",rarity:"Rare",pieces:231,price:"£35–75",chars:["Umarak"]},
+];
+
+let owned = new Set();
+let wishlist = new Set();
+let currentView = 'all';
+
+function load() {
+  try { const o = localStorage.getItem('g2-owned'); if (o) owned = new Set(JSON.parse(o)); } catch(e){}
+  try { const w = localStorage.getItem('g2-wish');  if (w) wishlist = new Set(JSON.parse(w)); } catch(e){}
+}
+
+function save() {
+  try { localStorage.setItem('g2-owned', JSON.stringify([...owned])); } catch(e){}
+  try { localStorage.setItem('g2-wish',  JSON.stringify([...wishlist])); } catch(e){}
+}
+
+function toggleOwned(id) {
+  if (owned.has(id)) { owned.delete(id); }
+  else { owned.add(id); wishlist.delete(id); }
+  save();
+  if (currentView === 'all') { updateCard(id); updateStats(); }
+  else applyFilters();
+}
+
+function toggleWish(id) {
+  if (owned.has(id)) return;
+  if (wishlist.has(id)) wishlist.delete(id);
+  else wishlist.add(id);
+  save();
+  if (currentView === 'all') { updateCard(id); updateStats(); }
+  else applyFilters();
+}
+
+function toggleInstructions(id) {
+  const toggle = document.getElementById('instr-toggle-' + id);
+  const panel  = document.getElementById('instr-panel-' + id);
+  if (!toggle || !panel) return;
+  const isOpen = panel.classList.contains('open');
+  toggle.classList.toggle('open', !isOpen);
+  panel.classList.toggle('open', !isOpen);
+  toggle.blur();
+  if (isOpen) toggle.style.color = '';
+}
+
+function toggleImage(id) {
+  const toggle = document.getElementById('img-toggle-' + id);
+  const panel  = document.getElementById('img-panel-' + id);
+  if (!toggle || !panel) return;
+  const isOpen = panel.classList.contains('open');
+  toggle.classList.toggle('open', !isOpen);
+  panel.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    const img = panel.querySelector('.set-img');
+    if (img && !img.src) img.src = img.dataset.src;
+  }
+}
+
+function updateCard(id) {
+  const card = document.getElementById('card-' + id);
+  if (!card) return;
+  const io = owned.has(id);
+  const iw = wishlist.has(id);
+  card.className = 'card' + (io ? ' owned-card' : iw ? ' wish-card' : '');
+  const btnOwn  = card.querySelector('.btn-own');
+  const btnWish = card.querySelector('.btn-wish');
+  btnOwn.className  = 'btn-own'  + (io ? ' is-owned' : '');
+  btnOwn.innerHTML  = io ? '&#x2713; Owned' : 'Mark owned';
+  btnWish.className = 'btn-wish' + (iw ? ' is-wished' : '');
+  btnWish.innerHTML = iw ? '&#x2605; Wish' : '&#x2606; Wish';
+  btnWish.disabled  = io;
+  const s = SETS.find(s=>s.id===id);
+  if (!s) return;
+  const grid = card.closest('.grid');
+  const head = grid && grid.previousElementSibling;
+  if (head && head.classList.contains('section-head')) {
+    const allInWave   = SETS.filter(x=>x.wave===s.wave);
+    const ownedInWave = allInWave.filter(x=>owned.has(x.id)).length;
+    const wishInWave  = allInWave.filter(x=>wishlist.has(x.id)).length;
+    let meta = ownedInWave + '/' + allInWave.length + ' owned';
+    if (wishInWave) meta += '  ·  ' + wishInWave + ' wishlisted';
+    head.querySelector('.section-head-right').textContent = meta;
+  }
+}
+
+function updateStats() {
+  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
+  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
+  const total    = regularSets.length;
+  const promoTotal = promoSets.length;
+  const own      = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
+  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
+  const wl       = wishlist.size;
+  const pct      = Math.round((own/total)*100);
+  const vrOwn    = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
+  const vrTot    = regularSets.filter(s=>s.rarity==='Very Rare').length;
+  const bar = document.getElementById('statBar');
+  if (!bar) return;
+  bar.children[0].querySelector('.stat-val').textContent = own + '/' + total;
+  bar.children[0].querySelector('.stat-sub').textContent = promoOwn + '/' + promoTotal + ' promotional';
+  bar.children[1].querySelector('.stat-val').textContent = own;
+  bar.children[1].querySelector('.prog-fill').style.width = pct + '%';
+  bar.children[2].querySelector('.stat-val').innerHTML = pct + '<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span>';
+  bar.children[2].querySelector('.stat-sub').textContent = vrOwn + '/' + vrTot + ' very rare';
+  bar.children[3].querySelector('.stat-val').textContent = wl;
+}
+
+function setView(v) {
+  currentView = v;
+  document.querySelectorAll('.tab').forEach((el, i) => {
+    el.classList.toggle('active', ['all','owned','missing','wishlist'][i] === v);
+  });
+  applyFilters();
+}
+
+function blUrl(id)  { return 'https://www.bricklink.com/v2/catalog/catalogitem.page?S=' + id + '-1'; }
+function ebayUrl(name, id) {
+  return 'https://www.ebay.co.uk/sch/i.html?_nkw=' + encodeURIComponent('lego bionicle ' + id + ' ' + name.split(' ').slice(0,3).join(' '));
+}
+function legoInstrUrl(id) { return 'https://www.lego.com/en-gb/service/building-instructions/' + id; }
+function rebrickableUrl(id) { return 'https://rebrickable.com/sets/' + id + '-1/'; }
+
+function rc(r) { return r==='Common'?'r-common':r==='Uncommon'?'r-uncommon':r==='Rare'?'r-rare':r==='Promotional'?'r-promo':'r-very-rare'; }
+function tc(t) { return {Toa:'t-toa',Protector:'t-protector',Villain:'t-villain',Creature:'t-creature',Combiner:'t-combiner',Accessory:'t-accessory'}[t]||'t-toa'; }
+
+function applyFilters() {
+  const q  = document.getElementById('search').value.toLowerCase();
+  const wv = document.getElementById('waveFilter').value;
+  const rf = document.getElementById('rarityFilter').value;
+  const tf = document.getElementById('typeFilter').value;
+  const cf = document.getElementById('charFilter').value;
+
+  const filtered = SETS.filter(s => {
+    if (q && !s.name.toLowerCase().includes(q) && !s.id.includes(q)) return false;
+    if (wv !== 'all' && s.wave != wv) return false;
+    if (rf !== 'all' && s.rarity !== rf) return false;
+    if (tf !== 'all' && s.type !== tf) return false;
+    if (cf !== 'all' && !s.chars.includes(cf)) return false;
+    if (currentView === 'owned'   && !owned.has(s.id)) return false;
+    if (currentView === 'missing' && (owned.has(s.id) || wishlist.has(s.id))) return false;
+    if (currentView === 'wishlist'&& !wishlist.has(s.id)) return false;
+    return true;
+  });
+
+  renderStats();
+
+  const rc2 = document.getElementById('resultsCount');
+  const filteredRegular = filtered.filter(s => s.rarity !== 'Promotional');
+  const filteredPromo   = filtered.filter(s => s.rarity === 'Promotional');
+  const totalRegular = SETS.filter(s => s.rarity !== 'Promotional').length;
+  const totalPromo   = SETS.filter(s => s.rarity === 'Promotional').length;
+  rc2.innerHTML = filteredRegular.length + ' / ' + totalRegular + ' sets' +
+    (totalPromo ? ' &nbsp;<span style="color:var(--text4);font-size:10px">' + filteredPromo.length + ' / ' + totalPromo + ' promo</span>' : '');
+
+  const container = document.getElementById('setContainer');
+  if (!filtered.length) {
+    const msgs = {owned:'No sets marked as owned yet.',wishlist:'Wishlist is empty.',missing:'Nothing missing.'};
+    container.innerHTML = '<div class="empty">' + (msgs[currentView]||'No sets match.') + '</div>';
+    return;
+  }
+
+  const waves = [...new Set(filtered.map(s=>s.wave))].sort((a,b)=>a-b);
+  let html = '';
+
+  const waveAccents = {
+    1: '#F97316', // orange — fiery 2015
+    2: '#38BDF8', // sky blue — unity 2016
+  };
+
+  waves.forEach(wn => {
+    const ws = filtered.filter(s=>s.wave===wn);
+    const allInWave = SETS.filter(s=>s.wave===wn);
+    const wo = allInWave.filter(s=>owned.has(s.id)).length;
+    const ww = allInWave.filter(s=>wishlist.has(s.id)).length;
+    let meta = wo + '/' + allInWave.length + ' owned';
+    if (ww) meta += '  ·  ' + ww + ' wishlisted';
+
+    const ac = waveAccents[wn] || '#7DD3FC';
+
+    html += `<div class="section-head" style="color:${ac};border-bottom-color:${ac}33">
+      <span>Wave ${wn} &mdash; ${ws[0].wn} &nbsp;<span style="color:rgba(255,255,255,0.45);font-weight:400">(${ws[0].year})</span></span>
+      <span class="section-head-right">${meta}</span>
+    </div><div class="grid">`;
+
+    ws.forEach((s, idx) => {
+      const io = owned.has(s.id);
+      const iw = wishlist.has(s.id);
+      const delay = Math.min(idx * 0.03, 0.4);
+
+      html += `<div class="card ${io?'owned-card':iw?'wish-card':''}" id="card-${s.id}" style="animation-delay:${delay}s;--wave-color:${ac}">
+        <div class="card-top">
+          <span class="set-num" style="color:${ac}">#${s.id}</span>
+          <span class="rarity-badge ${rc(s.rarity)}">${s.rarity}</span>
+        </div>
+        <div class="card-name">${s.name}</div>
+        <div class="card-meta">
+          <span class="tag ${tc(s.type)}">${s.type}</span>
+          <span class="tag t-pieces">${s.pieces} pcs</span>
+        </div>
+        <div class="card-price">Est. <b>${s.price}</b></div>
+        <div class="card-actions">
+          <button class="btn-own ${io?'is-owned':''}" onclick="toggleOwned('${s.id}')">${io?'&#x2713; Owned':'Mark owned'}</button>
+          <button class="btn-wish ${iw?'is-wished':''}" onclick="toggleWish('${s.id}')" ${io?'disabled':''}>
+            ${iw?'&#x2605; Wish':'&#x2606; Wish'}
+          </button>
+        </div>
+        <div class="buy-links">
+          <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${blUrl(s.id)}" target="_blank" rel="noopener">BrickLink</a>
+          <a class="btn-buy" style="color:${ac};border-color:${ac}28" href="${ebayUrl(s.name, s.id)}" target="_blank" rel="noopener">eBay UK</a>
+        </div>
+
+        <button class="img-toggle" id="img-toggle-${s.id}" onclick="toggleImage('${s.id}')" style="color:${ac}70;border-top-color:${ac}20">
+          <span style="display:flex;align-items:center;gap:5px">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/></svg>
+            View image
+          </span>
+          <svg class="img-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="img-panel" id="img-panel-${s.id}">
+          <div class="img-inner">
+            <div class="img-content">
+              <img class="set-img" data-src="/images/${s.id}-1.jpg" alt="${s.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" onclick="if(this.src)openLightbox(this.src,'${s.name}')" />
+              <div class="img-error" style="display:none">No image available</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="instructions-toggle" style="--instr-color:${ac}" id="instr-toggle-${s.id}" onclick="toggleInstructions('${s.id}')">
+          <span class="instr-label">
+            <svg class="instr-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.746c-.917-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/></svg>
+            Instructions
+          </span>
+          <svg class="instr-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+
+        <div class="instructions-panel" id="instr-panel-${s.id}">
+          <div class="instructions-inner">
+            <div class="instructions-content">
+              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${legoInstrUrl(s.id)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                LEGO Official
+              </a>
+              <a class="btn-instr" style="color:${ac};border-color:${ac}30" href="${rebrickableUrl(s.id)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                Rebrickable
+              </a>
+              <p class="instr-note">G2 sets are discontinued — Rebrickable is the most reliable source for scanned instructions.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function renderStats() {
+  const regularSets = SETS.filter(s => s.rarity !== 'Promotional');
+  const promoSets   = SETS.filter(s => s.rarity === 'Promotional');
+  const total    = regularSets.length;
+  const promoTotal = promoSets.length;
+  const own      = [...owned].filter(id => regularSets.some(s => s.id === id)).length;
+  const promoOwn = [...owned].filter(id => promoSets.some(s => s.id === id)).length;
+  const wl       = wishlist.size;
+  const pct      = Math.round((own/total)*100);
+  const vrOwn    = regularSets.filter(s=>s.rarity==='Very Rare'&&owned.has(s.id)).length;
+  const vrTot    = regularSets.filter(s=>s.rarity==='Very Rare').length;
+
+  document.getElementById('statBar').innerHTML = `
+    <div class="stat">
+      <div class="stat-label">Total sets</div>
+      <div class="stat-val">${own}/${total}</div>
+      <div class="stat-sub" style="color:rgba(255,255,255,0.45);margin-top:3px">${promoOwn}/${promoTotal} promotional</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Owned</div>
+      <div class="stat-val blue">${own}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Collection</div>
+      <div class="stat-val">${pct}<span style="font-size:14px;color:rgba(255,255,255,0.45)">%</span></div>
+      <div class="stat-sub">${vrOwn}/${vrTot} very rare</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Wishlist</div>
+      <div class="stat-val amber">${wl}</div>
+    </div>`;
+
+  const now = new Date();
+  document.getElementById('headerRight').innerHTML =
+    'DATA: BRICKLINK 2026<br>SETS: ' + total + ' INDEXED<br>' +
+    now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+}
+
+function openLightbox(src, name) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const nm  = document.getElementById('lightboxName');
+  img.src = src; img.alt = name; nm.textContent = name;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+load();
+applyFilters();
+</script>
+</body>
+</html>
