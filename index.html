@@ -23,6 +23,7 @@
   --text3: rgba(255,255,255,0.28);
   --hf-color: #E879F9;
   --mx-color: #F97316;
+  --bn-color: #38BDF8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -152,6 +153,7 @@ body::after {
 
 .card-hf { --card-color: var(--hf-color); }
 .card-mx { --card-color: var(--mx-color); }
+.card-bn { --card-color: var(--bn-color); }
 
 .card-icon {
   width: 48px; height: 48px; border-radius: 10px;
@@ -163,6 +165,7 @@ body::after {
 
 .card-hf .card-icon { background: rgba(232,121,249,0.1); border-color: rgba(232,121,249,0.2); }
 .card-mx .card-icon { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.2); }
+.card-bn .card-icon { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.2); }
 
 .card-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--card-color); opacity: 0.7; }
 
@@ -243,6 +246,26 @@ body::after {
         <div class="card-title">Mixels</div>
       </div>
       <div class="card-desc">Track your Mixels collection across all 9 series &mdash; 81 sets indexed.</div>
+      <div class="card-arrow">
+        Open tracker
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+
+    <a class="card card-bn" href="/bionicle-g2.html">
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="3" y="4" width="9" height="4" rx="1" fill="#38BDF8" opacity="0.9"/>
+          <rect x="16" y="4" width="9" height="4" rx="1" fill="#38BDF8" opacity="0.9"/>
+          <rect x="1" y="8" width="26" height="16" rx="3" fill="#38BDF8" opacity="0.85"/>
+          <rect x="1" y="8" width="26" height="2" fill="rgba(0,0,0,0.15)"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-label">2015 &ndash; 2016</div>
+        <div class="card-title">Bionicle G2</div>
+      </div>
+      <div class="card-desc">Track your Bionicle G2 collection across both waves &mdash; 32 sets indexed.</div>
       <div class="card-arrow">
         Open tracker
         <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
